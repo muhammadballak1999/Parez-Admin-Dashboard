@@ -1,4 +1,4 @@
-# gymhok-admin-dashboard
+# Collage FYP Admin Dashboard
 
 ## Project setup
 ```
