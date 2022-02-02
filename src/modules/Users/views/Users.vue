@@ -31,7 +31,7 @@
     :items="data"
     :items-per-page="10"
     class="elevation-4"
-    :loading="loading"
+    :loading="loading && data.length === 0"
     >
      <template v-slot:top>
       <v-toolbar
@@ -60,13 +60,11 @@
       <v-icon
         small
         class="mr-2"
-        @click="editItem(item)"
       >
         mdi-pencil
       </v-icon>
       <v-icon
         small
-        @click="deleteItem(item)"
       >
         mdi-delete
       </v-icon>
@@ -75,6 +73,7 @@
       No data is available!
     </template>
     </v-data-table>
+    
     </div>
 </div>
 </template>
@@ -84,8 +83,6 @@ export default {
     data: () => ({
       title: 'Admins',
       search: '',
-      dialog: false,
-      dialogDelete: false,
       loading: false,
       breadcrumps: [
         {
@@ -110,7 +107,7 @@ export default {
           text: 'Username',
           align: 'start',
           sortable: false,
-          value: 'usernmae',
+          value: 'username',
         },
         { text: 'Phone', value: 'phone', sortable: false },
         { text: 'E-Mail', value: 'email', sortable: false },
@@ -118,40 +115,13 @@ export default {
         { text: 'Age', value: 'age', sortable: false },
         { text: 'City', value: 'city', sortable: false },
         { text: 'Marital status', value: 'marital_status', sortable: false },
+        { text: 'Role', value: 'type.role', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
-      defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      },
     }),
 
     computed: {
       ...mapState('userStore', ['data', 'admins', 'police_stations', 'users']),
-
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
-    },
-
-    watch: {
-      dialog (val) {
-        val || this.close()
-      },
-      dialogDelete (val) {
-        val || this.closeDelete()
-      },
     },
 
    async created () {
@@ -160,52 +130,11 @@ export default {
 
     methods: {
       ...mapMutations('userStore', ['GET_USERS', 'GET_ADMINS', 'GET_POLICE_STATIONS']),
-      ...mapActions('userStore', ['getUsers']),
+      ...mapActions('userStore', ['getUsers', 'createUser', 'updateUser', 'deleteUser']),
      async initialize () {
        this.loading = true;
         await this.getUsers();
         this.loading = false;
-      },
-      editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
-
-      deleteItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialogDelete = true
-      },
-
-      deleteItemConfirm () {
-        this.desserts.splice(this.editedIndex, 1)
-        this.closeDelete()
-      },
-
-      close () {
-        this.dialog = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-      closeDelete () {
-        this.dialogDelete = false
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        })
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        } else {
-          this.desserts.push(this.editedItem)
-        }
-        this.close()
       },
     },
   }

@@ -14,6 +14,9 @@ import GlobalMenu from './components/globalComponents/Menu.vue';
 import GlobalDeleteAlert from './components/globalComponents/DeleteAlert.vue';
 import ImageInput from './components/globalComponents/ImageInput.vue';
 import ShowOnMap from './components/globalComponents/ShowOnMap.vue';
+import "leaflet/dist/leaflet.css";
+import "leaflet-geosearch/dist/geosearch.css";
+import LocationPicker from './components/globalComponents/LocationPicker.vue';
 
 let global_components = [
   {
@@ -45,6 +48,11 @@ let global_components = [
     id:5,
     name:'show-on-map',
     component: ShowOnMap
+  },
+  {
+    id:6,
+    name:'location-picker',
+    component: LocationPicker
   }
 ]
 

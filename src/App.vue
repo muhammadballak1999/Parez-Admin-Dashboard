@@ -16,4 +16,7 @@ tr:nth-child(even) {
     background-color: #FFE082 !important;
 }
 
+img.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive.leaflet-marker-draggable {
+    width: 40px !important;
+}
 </style>

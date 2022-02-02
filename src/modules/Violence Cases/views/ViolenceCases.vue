@@ -7,7 +7,8 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-    <show-on-map @close_map="dialog = false" :coords="{lat: 36.191113, lng: 44.009167}" />
+    <location-picker @get="getAddress" @close_map="dialog = false" v-model="location" :key="1" />
+    <!-- <show-on-map @close_map="dialog = false" :coords="{lat: 36.191113, lng: 44.009167}" /> -->
     </v-dialog>
 </div>
 </template>
@@ -27,7 +28,13 @@ export default {
           href: 'violencecases',
         },
       ],
+      location: {},
       dialog: false
+    }
+  },
+  methods: {
+    getAddress(payload) {
+      // console.log(payload);
     }
   }
 }

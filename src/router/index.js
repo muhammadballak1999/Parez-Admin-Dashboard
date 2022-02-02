@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
 import statisticsRoutes from '../modules/statistics/routes';
-import termsAndConditionsRoutes from '../modules/terms and conditions/routes';
 import announcementsAndRulesRoutes from '../modules/Announcements and rules/routes';
 import notificationRoutes from '../modules/notification/routes';
 import blogRoutes from '../modules/blog/routes'
