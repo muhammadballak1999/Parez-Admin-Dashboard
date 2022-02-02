@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     getAddress(payload) {
-      // console.log(payload);
+      this.dialog = false;
     }
   }
 }

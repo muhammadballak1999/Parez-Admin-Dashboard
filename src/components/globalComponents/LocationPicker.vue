@@ -3,18 +3,31 @@
     v-if="show"
     ref="map"
     @dblclick="onMapClick"
+    :options="{doubleClickZoom: false}"
     :zoom="zoom"
+    :zoomDelta="12"
     :center="[
       position.lat || userLocation.lat || defaultLocation.lat,
       position.lng || userLocation.lng || defaultLocation.lng
     ]"
   >
-          <v-btn style="z-index: 1000;" @click="$emit('close_map')" color="primary" fab fixed top right>
+      <v-btn style="z-index: 1000;" @click="$emit('close_map')" color="primary" fab fixed top right>
         <v-icon
         dark
         >
             mdi-close       
          </v-icon>
+        </v-btn>
+         <v-btn class="text-capitalize" style="z-index: 1000;" @click="getLocation" color="primary" rounded x-large fixed left bottom>
+            <v-icon
+              left
+            >
+              mdi-crosshairs-gps
+            </v-icon>
+           Choose Location
+        </v-btn>
+      <v-btn @click="getUserPosition" style="z-index: 1000;" color="secondary" fab fixed bottom right>
+        <v-img height="24" width="24" :src="require('../../assets/pin.png')" contain></v-img>
         </v-btn>
     <l-tile-layer
       :url="tileProvider.url"
@@ -28,6 +41,7 @@
       :lat-lng.sync="position"
       @dragstart="dragging = true"
       @dragend="dragging = false"
+      :icon="icon"
     >
       <l-icon
           :icon-size="dynamicSize"
@@ -39,7 +53,7 @@
   </l-map>
 </template>
 <script>
-import { LMap, LMarker, LTileLayer, LTooltip, LIcon } from "vue2-leaflet";
+import { LMap, LMarker, LTileLayer, LTooltip, LIcon, LControlZoom } from "vue2-leaflet";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import LGeosearch from "vue2-leaflet-geosearch";
 import { icon } from "leaflet";
@@ -51,7 +65,8 @@ export default {
     LMarker,
     LTooltip,
     LGeosearch,
-    LIcon
+    LIcon,
+    LControlZoom
   },
   props: {
     value: {
@@ -70,10 +85,12 @@ export default {
     return {
       loading: false,
       show : false,
+      coords:null,
       geoSearchOptions: {
         provider: new OpenStreetMapProvider(),
         showMarker: false,
-        autoClose: true
+        autoClose: true,
+        style: 'button',
       },
       userLocation: {},
       position: {},
@@ -97,8 +114,8 @@ export default {
       deep: true,
       async handler(value) {
         this.address = await this.getAddress();
-        this.$emit("get", { position: value, address: this.address });
-      }
+        this.coords = value
+        }
     }
   },
   computed: {
@@ -141,6 +158,9 @@ export default {
       this.loading = false;
       return address;
     },
+    getLocation() {
+        this.$emit("get", { position: this.coords, address: this.address });
+    },
     async onMapClick(value) {
       // place the marker on the clicked spot
       this.position = value.latlng;
@@ -150,7 +170,7 @@ export default {
       this.position = { lat: loc.y, lng: loc.x };
     },
     async getUserPosition() {
-      if (navigator.geolocation) {
+        if (navigator.geolocation) {
         // get GPS position
         navigator.geolocation.getCurrentPosition(pos => {
           // set the user location
@@ -158,7 +178,6 @@ export default {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude
           };
-          console.log(this.userLocation);
           this.onMapClick({latlng: this.userLocation});
         });
 
@@ -168,7 +187,6 @@ export default {
  mounted() {
      setTimeout(async () => {
           this.show = true;
-          console.log("Hello map")
       }, 100);
       setTimeout(() => {
          this.getUserPosition();
