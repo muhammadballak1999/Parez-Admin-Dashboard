@@ -17,6 +17,7 @@ import ShowOnMap from './components/globalComponents/ShowOnMap.vue';
 import "leaflet/dist/leaflet.css";
 import "leaflet-geosearch/dist/geosearch.css";
 import LocationPicker from './components/globalComponents/LocationPicker.vue';
+import vueDebounce from 'vue-debounce'
 
 let global_components = [
   {
@@ -62,6 +63,11 @@ for(let i = 0; i<global_components.length; i++) {
 
 Vue.use(Vuex);
 Vue.use(VueToast);
+Vue.use(vueDebounce, {
+  listenTo: ['input', 'keyup'],
+  defaultTime: '500ms'
+})
+
 Vue.config.productionTip = false;
 
 new Vue({

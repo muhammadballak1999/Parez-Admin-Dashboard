@@ -8,19 +8,19 @@
       class="elevation-4"
     >
       <v-tab
-      @click="title = 'Admins'; GET_ADMINS();"
+      @click="tab = 'admins'; keyword = ''; getAdmins();"
        class="text-capitalize"
       >
         Admins
       </v-tab>
       <v-tab
-      @click="title = 'Police stations'; GET_POLICE_STATIONS();"
+      @click="tab = 'police stations'; keyword = ''; getPoliceStations();"
        class="text-capitalize"
       >
         Police stations
       </v-tab>
       <v-tab
-      @click="title = 'Users'; GET_USERS();"
+      @click="tab = 'users'; keyword = ''; getUsers();"
        class="text-capitalize"
       >
         Users
@@ -38,18 +38,19 @@
         flat
         color="accent"
       >
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title class="text-capitalize">{{tab}}</v-toolbar-title>
         <v-spacer />
       <v-text-field
         outlined
         dense
         rounded
-        v-model="search"
+        v-model="keyword"
         append-icon="mdi-magnify"
         label="Search"
         single-line
         hide-details
         class="search-input"
+        v-debounce:500="search"
       ></v-text-field>
       </v-toolbar>
     </template>
@@ -81,8 +82,8 @@
 import { mapActions, mapMutations, mapState } from 'vuex';
 export default {
     data: () => ({
-      title: 'Admins',
-      search: '',
+      tab: 'admins',
+      keyword: '',
       loading: false,
       breadcrumps: [
         {
@@ -119,9 +120,16 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false },
       ],
     }),
-
     computed: {
-      ...mapState('userStore', ['data', 'admins', 'police_stations', 'users']),
+      ...mapState('userStore', ['admins', 'police_stations', 'users']),
+      data() {
+        if(this.tab === 'admins') 
+        return this.admins;
+        else if(this.tab === 'users')
+        return this.users;
+        else
+        return this.police_stations
+      }
     },
 
    async created () {
@@ -129,13 +137,21 @@ export default {
     },
 
     methods: {
-      ...mapMutations('userStore', ['GET_USERS', 'GET_ADMINS', 'GET_POLICE_STATIONS']),
-      ...mapActions('userStore', ['getUsers', 'createUser', 'updateUser', 'deleteUser']),
+      ...mapActions('userStore', ['getAdmins', 'getUsers', 'getPoliceStations', 'createUser', 'updateUser', 'deleteUser']),
      async initialize () {
        this.loading = true;
-        await this.getUsers();
+        await this.getAdmins();
         this.loading = false;
       },
+      search() {
+        console.log(this.keyword);
+        if(this.tab === 'admins') 
+        return this.getAdmins(this.keyword || undefined);
+        else if(this.tab === 'users')
+        return this.getUsers(this.keyword || undefined);
+        else
+        return this.getPoliceStations(this.keyword || undefined);
+      }
     },
   }
 </script>

@@ -10,20 +10,34 @@
     >
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer />
-        <v-btn
-          color="secondary"
-          class="mr-4 primary--text text-capitalize"
-          @click="logout"
-          :loading="loading"
-         >
-         Logout
-            <v-icon
-        right
-        dark
-      >
-        mdi-logout-variant
-      </v-icon>
-    </v-btn>
+          <v-menu
+        bottom
+        left
+        >
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            class="d-flex column"
+            >
+            <v-icon>mdi-account-circle</v-icon>
+            </v-btn>
+        </template>
+
+        <v-list>
+            <v-list-item  @click="logout" ripple>
+            <v-list-item-title>
+             <p class="mb-0 primary--text">
+               <v-icon class="mr-1" color="primary" small>
+               mdi-logout-variant
+               </v-icon>
+                Logout
+               </p>
+            </v-list-item-title>
+            </v-list-item>
+        </v-list>
+        </v-menu>
     </v-app-bar>
     <v-main> 
     <div class="main-container" style="
