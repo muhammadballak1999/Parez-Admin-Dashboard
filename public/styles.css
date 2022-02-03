@@ -1,18 +1,14 @@
-<template>
-  <v-app>
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
-</template>
-
-<script>
-export default {
-  name: 'App',
+.v-select.v-text-field--outlined:not(.v-text-field--single-line).v-input--dense .v-select__selections {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
-</script>
-<style>
-/* tr:nth-child(even) {
+  
+.vti__flag {
+   margin-right: 0 !important;
+}
+
+tr:nth-child(even) {
     background-color: #FFE082 !important;
 }
 
@@ -51,5 +47,4 @@ div.leaflet-control-geosearch form {
 a.reset {
   line-height: 30px !important;
   height: 30px !important;
-} */
-</style>
+}

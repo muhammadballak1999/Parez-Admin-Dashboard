@@ -18,6 +18,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-geosearch/dist/geosearch.css";
 import LocationPicker from './components/globalComponents/LocationPicker.vue';
 import vueDebounce from 'vue-debounce'
+import VueTelInputVuetify from "vue-tel-input-vuetify";
 
 let global_components = [
   {
@@ -66,7 +67,11 @@ Vue.use(VueToast);
 Vue.use(vueDebounce, {
   listenTo: ['input', 'keyup'],
   defaultTime: '500ms'
-})
+});
+
+Vue.use(VueTelInputVuetify, {
+  vuetify,
+});
 
 Vue.config.productionTip = false;
 

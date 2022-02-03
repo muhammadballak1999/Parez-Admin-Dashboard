@@ -2,8 +2,8 @@ import { REQUEST } from '../../../Request';
 import { POST, GET } from '../../../Request/requestMethods';
 // import { toast } from '../../utils/toast';
 
-export const getUsers = async ({commit}, payload) => {
-    let response = await REQUEST('/users', GET);
+export const getUsers = async ({commit}, keyword) => {
+    let response = await REQUEST(`/users/${keyword}`, GET);
     if(response.success) {
         commit('GET_USERS', response.data);
     }
@@ -17,8 +17,8 @@ export const getAdmins = async ({commit}, keyword) => {
 }
 
 
-export const getPoliceStations = async ({commit}, payload) => {
-    let response = await REQUEST('/users/police-stations', GET);
+export const getPoliceStations = async ({commit}, keyword) => {
+    let response = await REQUEST(`/users/police-stations/${keyword}`, GET);
     if(response.success) {
         commit('GET_POLICE_STATIONS', response.data);
     }

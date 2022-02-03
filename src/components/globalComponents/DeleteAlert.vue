@@ -1,6 +1,6 @@
 <template>
       <v-card>
-        <v-card-title class="text-h5 secondary">
+        <v-card-title class="text-h5 accent">
           Warning!
         </v-card-title>
 
@@ -14,14 +14,12 @@
           <v-spacer></v-spacer>
         <v-btn
             color="error"
-            text
             @click="$emit('close')"
           >
            Close
           </v-btn>
           <v-btn
             color="primary"
-            text
             @click="$emit('submit')"
           >
             I accept
