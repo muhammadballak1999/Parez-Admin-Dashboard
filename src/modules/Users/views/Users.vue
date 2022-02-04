@@ -132,9 +132,10 @@
       ></v-text-field>
       <vue-tel-input-vuetify 
       defaultCountry 
-      :inputOptions="{showDialCode: true}" 
       dense 
       outlined 
+      :error-messages="error ? 'Please write a valid phone number!' : ''"
+      :rules="phoneRules"
       v-model="user.phone">
       </vue-tel-input-vuetify>
       <v-select
@@ -159,34 +160,25 @@
         v-if="type && type.role === 'police'"
         v-model="user.location"
         ref="location"
-        label="Location (required)"
+        label="Location"
         outlined
         dense
-        :rules="locationRules"
-        :disabled="!user.location"
-        required
       ></v-text-field>
        <v-text-field
         v-if="type && type.role === 'police'"
         v-model="user.latitude"
         ref="latitude"
-        label="Latitude (required)"
+        label="Latitude"
         outlined
         dense
-        :rules="latitudeRules"
-        :disabled="!user.latitude"
-        required
       ></v-text-field>
         <v-text-field
         v-if="type && type.role === 'police'"
         v-model="user.longitude"
         ref="longitude"
-        label="Longitude (required)"
+        label="Longitude"
         outlined
         dense
-        :rules="locationRules"
-        :disabled="!user.longitude"
-        required
       ></v-text-field>
         <v-select
         :loading="!areListsLoaded"
@@ -234,6 +226,7 @@ export default {
       action: 'create',
       areListsLoaded: false,
       id: null,
+      error: false,
       roles: [],
       marital_statuses: [],
       delete_alert: false,
@@ -243,11 +236,11 @@ export default {
       map_dialog: false,
       valid: true,
       user: {
-        name: '',
-        username: '',
-        email: '',
-        password: '',
-        location: '',
+        name: 'Testuser',
+        username: 'usertest',
+        email: 'test@test.com',
+        password: '11111111',
+        location: 'Malo',
         longitude: null,
         latitude: null,
         phone: null,
@@ -314,7 +307,7 @@ export default {
         },
         { text: 'Phone', value: 'phone', sortable: false },
         { text: 'E-Mail', value: 'email', sortable: false },
-        { text: 'Address', value: 'address', sortable: false },
+        { text: 'Address', value: 'location', sortable: false },
         { text: 'Age', value: 'age', sortable: false },
         { text: 'City', value: 'city', sortable: false },
         { text: 'Marital status', value: 'marital_status', sortable: false },
@@ -344,7 +337,6 @@ export default {
         this.loading = false;
       },
       search() {
-        console.log(this.keyword);
         if(this.tab === 'admins') 
         return this.getAdmins(this.keyword || undefined);
         else if(this.tab === 'users')
@@ -358,8 +350,30 @@ export default {
         this.user.longitude = payload.position.lng;
         this.map_dialog = false;
       },
-      submit() {
-        this.user.type = this.type.id;
+    async submit() {
+        await this.$refs.form.validate();
+        if(!this.user.phone || isNaN(Number(this.user.phone.replaceAll(' ', '')))){
+          this.error = true;
+        }else{
+          this.error = false;
+        }
+
+        if(!this.error  && this.valid) {
+          this.dialog = false;
+          this.user.type = this.type.id;
+          if(this.action === 'create') {
+            if(this.type.role === 'admin'){
+              this.tab = 'admins';
+            }else if(this.type.role === 'user') {
+              this.tab = 'users';
+            }else{
+              this.tab = 'police stations'
+            }
+            await this.createUser({user: this.user, type: this.type.role});
+          }else{
+            console.log("Update")
+          }
+        }
       },
       deleteUser() {
         console.log(this.id)
