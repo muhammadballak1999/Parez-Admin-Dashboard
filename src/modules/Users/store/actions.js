@@ -1,5 +1,5 @@
 import { REQUEST } from '../../../Request';
-import { POST, GET } from '../../../Request/requestMethods';
+import { POST, PUT, GET, DELETE } from '../../../Request/requestMethods';
 import { toast } from '../../../utils/toast';
 
 export const getUsers = async ({commit}, keyword) => {
@@ -36,6 +36,43 @@ export const createUser = async ({dispatch}, payload) => {
         }else{
             dispatch('getPoliceStations');
         }
+        toast('User created successfully', 'success');
+    }else{
+        toast('Something went wrong!', 'error');
+    }
+}
+
+
+export const updateUser = async ({dispatch}, payload) => {
+
+    let response = await REQUEST(`/users/${payload.id}`, PUT, payload.user);
+    if(response.success) {
+        if(payload.type === 'admins'){
+            dispatch('getAdmins');
+        }else if(payload.type === 'users'){
+            dispatch('getUsers');
+        }else{
+            dispatch('getPoliceStations');
+        }
+        toast('User updated successfully', 'success');
+    }else{
+        console.log(response);
+        toast('Something went wrong!', 'error');
+    }
+}
+
+export const deleteUser = async ({dispatch}, payload) => {
+
+    let response = await REQUEST(`/users/${payload.id}`, DELETE);
+    if(response.success) {
+        if(payload.type === 'admins'){
+            dispatch('getAdmins');
+        }else if(payload.type === 'users'){
+            dispatch('getUsers');
+        }else{
+            dispatch('getPoliceStations');
+        }
+        toast('User deactivated successfully', 'success');
     }else{
         toast('Something went wrong!', 'error');
     }

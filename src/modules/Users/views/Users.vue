@@ -50,19 +50,37 @@
      {{index}}
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="action = 'update'; dialog = true;"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="id = item.id; delete_alert = true;"
-      >
-        mdi-delete
-      </v-icon>
+      <v-menu
+        bottom
+        left
+        >
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            >
+            <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+        </template>
+
+        <v-list>
+            <v-list-item @click="action = 'update'; selectFields(item); dialog = true;" ripple>
+            <v-list-item-title>
+             <p class="mb-0 amber--text"><v-icon class="mr-1" color="amber" small>mdi-pencil</v-icon>Edit</p>
+            </v-list-item-title>
+            </v-list-item>
+            <v-spacer></v-spacer>
+            <v-list-item @click="id = item.id; delete_alert = true;" ripple>
+            <v-list-item-title>
+             <p class="mb-0 error--text"><v-icon class="mr-1" color="error" small>mdi-alert-octagon-outline</v-icon>Deactivate</p>
+            </v-list-item-title>
+            </v-list-item>
+        </v-list>
+        </v-menu>
+    </template>
+      <template v-slot:item.isSuspended="{ item }">
+        {{item.isSuspended ? 'deactivated' : 'active'}}
     </template>
     <template v-slot:no-data>
       No data is available!
@@ -84,7 +102,7 @@
       <v-text-field
         v-model="user.name"
         ref="name"
-        label="Name (required)"
+        label="Name"
         outlined
         dense
         :rules="nameRules"
@@ -93,7 +111,7 @@
       <v-text-field
         v-model="user.username"
         ref="username"
-        label="Username (required)"
+        label="Username"
         outlined
         dense
         autocomplete="username"
@@ -103,7 +121,7 @@
       <v-text-field
         v-model="user.email"
         ref="email"
-        label="E-mail (required)"
+        label="E-mail"
         autocomplete="false"
         outlined
         dense
@@ -114,7 +132,7 @@
         v-model="user.password"
         autocomplete="new-password"
         ref="password"
-        label="Password (required)"
+        label="Password"
         outlined
         type="password"
         dense
@@ -124,7 +142,7 @@
       <v-text-field
         v-model="user.city"
         ref="city"
-        label="City (required)"
+        label="City"
         outlined
         dense
         :rules="cityRules"
@@ -146,10 +164,11 @@
         :item-text="item =>`${item.role}`" 
         return-object
         dense
-        label="User type (required)"
+        label="User type"
         :rules="typeRules"
         outlined
         ref="type"
+        v-if="action === 'create'"
         >
         </v-select>
         <v-btn v-if="type && type.role === 'police'" @click="map_dialog = true;" class="text-capitalize mb-6" color="primary" block>
@@ -163,6 +182,7 @@
         label="Location"
         outlined
         dense
+        :rules="locationRules"
       ></v-text-field>
        <v-text-field
         v-if="type && type.role === 'police'"
@@ -171,6 +191,7 @@
         label="Latitude"
         outlined
         dense
+        :rules="latitudeRules"
       ></v-text-field>
         <v-text-field
         v-if="type && type.role === 'police'"
@@ -179,6 +200,7 @@
         label="Longitude"
         outlined
         dense
+        :rules="longitudeRules"
       ></v-text-field>
         <v-select
         :loading="!areListsLoaded"
@@ -201,14 +223,14 @@
       v-model="delete_alert"
       width="350px"
   >
-  <global-delete-alert @close="id = null; delete_alert = false;" @submit="deleteUser(); delete_alert = false;" />
+  <global-delete-alert @close="id = null; delete_alert = false;" @submit="removeUser(); delete_alert = false;" />
   </v-dialog>
   <v-dialog
       v-model="map_dialog"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition">
-      <location-picker @get="getAddress" @close_map="map_dialog = false;" v-model="location" :key="1" />
+      <location-picker :pos="coords" @get="getAddress" @close_map="map_dialog = false;" v-model="location" :key="1" />
   </v-dialog>
 </div>
 </template>
@@ -227,6 +249,10 @@ export default {
       areListsLoaded: false,
       id: null,
       error: false,
+      coords: {
+        lat: 0,
+        lng: 0
+      },
       roles: [],
       marital_statuses: [],
       delete_alert: false,
@@ -236,11 +262,11 @@ export default {
       map_dialog: false,
       valid: true,
       user: {
-        name: 'Testuser',
-        username: 'usertest',
-        email: 'test@test.com',
-        password: '11111111',
-        location: 'Malo',
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        location: '',
         longitude: null,
         latitude: null,
         phone: null,
@@ -257,10 +283,6 @@ export default {
       emailRules: [
         v => !!v || 'E-mail is required!',
         v => /.+@.+/.test(v) || 'E-mail must be valid!',
-      ],
-      passwordRules: [
-        v => !!v || 'Password is required!',
-        v => v.length >= 8 || 'Password must be at least 8 characters!' 
       ],
       locationRules:[
         v => !!v || 'Location is required!',
@@ -293,25 +315,17 @@ export default {
         },
       ],
       headers: [
-        {
-          text: '#',
-          align: 'start',
-          sortable: false,
-          value: 'index',
-        },
-        {
-          text: 'Username',
-          align: 'start',
-          sortable: false,
-          value: 'username',
-        },
+        {text: '#', align: 'start', sortable: false, value: 'index'},
+        {text: 'Name', align: 'start', sortable: false, value: 'name'},
+        {text: 'Username', align: 'start', sortable: false, value: 'username'},
         { text: 'Phone', value: 'phone', sortable: false },
         { text: 'E-Mail', value: 'email', sortable: false },
         { text: 'Address', value: 'location', sortable: false },
         { text: 'Age', value: 'age', sortable: false },
         { text: 'City', value: 'city', sortable: false },
-        { text: 'Marital status', value: 'marital_status', sortable: false },
+        { text: 'Marital status', value: 'marital_status.status', sortable: false },
         { text: 'Role', value: 'type.role', sortable: false },
+        { text: 'Status', value: 'isSuspended', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
     }),
@@ -320,6 +334,28 @@ export default {
     },
     computed: {
       ...mapState('userStore', ['admins', 'police_stations', 'users']),
+      passwordRules() {
+        if(this.action === 'create'){
+        return  [
+         v => !!v || 'Password is required!',
+         v => !!v && v.length >= 8 || 'Password must be at least 8 characters!' 
+         ]
+        }else{
+         return  [
+         v => {
+           if(v){
+             if(v.length < 8) {
+               return 'Password must be at least 8 characters!';
+             }else{
+               return true;
+             }
+           }else{
+             return true;
+           }
+           }
+         ]
+        }
+      },
       data() {
         if(this.tab === 'admins') 
         return this.admins;
@@ -335,6 +371,8 @@ export default {
        this.loading = true;
         await this.getAdmins();
         this.loading = false;
+        await this.getUsers();
+        await this.getPoliceStations();
       },
       search() {
         if(this.tab === 'admins') 
@@ -350,6 +388,23 @@ export default {
         this.user.longitude = payload.position.lng;
         this.map_dialog = false;
       },
+      selectFields(user) {
+        this.id = user.id
+        this.user.name = user.name;
+        this.user.username = user.username;
+        this.user.email = user.email;
+        this.user.phone = user.phone;
+        this.user.marital_status = user.marital_status ? user.marital_status.id : null;
+        this.user.location = user.location;
+        this.user.city = user.city;
+        this.type = user.type;
+        if(this.type.role === 'police'){
+        this.user.latitude = user.police_station.latitude;
+        this.user.longitude = user.police_station.longitude;
+        this.coords.lat = user.police_station.latitude;
+        this.coords.lng = user.police_station.longitude;
+        }
+      },
     async submit() {
         await this.$refs.form.validate();
         if(!this.user.phone || isNaN(Number(this.user.phone.replaceAll(' ', '')))){
@@ -360,8 +415,8 @@ export default {
 
         if(!this.error  && this.valid) {
           this.dialog = false;
-          this.user.type = this.type.id;
           if(this.action === 'create') {
+            this.user.type = this.type.id;
             if(this.type.role === 'admin'){
               this.tab = 'admins';
             }else if(this.type.role === 'user') {
@@ -371,15 +426,19 @@ export default {
             }
             await this.createUser({user: this.user, type: this.type.role});
           }else{
-            console.log("Update")
+            this.user.type = undefined;
+            await this.updateUser({user: this.user, id: this.id, type: this.tab});
+            this.id = null;
           }
+          this.$refs.form.reset();
         }
       },
-      deleteUser() {
-        console.log(this.id)
+     async removeUser() {
+        await this.deleteUser({id: this.id, type: this.tab});
+        this.id = null;
       },
       clear() {
-        console.log("cleared");
+         this.$refs.form.reset();
       }
     },
     async created () {

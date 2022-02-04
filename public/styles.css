@@ -48,3 +48,8 @@ a.reset {
   line-height: 30px !important;
   height: 30px !important;
 }
+
+td {
+  min-width: 9rem !important;
+  white-space: nowrap !important;
+}

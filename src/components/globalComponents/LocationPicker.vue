@@ -69,6 +69,9 @@ export default {
     LControlZoom
   },
   props: {
+    pos: {
+      object: true,
+    },
     value: {
       type: Object,
       required: true
@@ -189,8 +192,12 @@ export default {
           this.show = true;
       }, 100);
       setTimeout(() => {
+        if(this.pos) {
+          this.position = this.pos;
+        }else{
          this.getUserPosition();
-         this.$refs.map.mapObject.on("geosearch/showlocation", this.onSearch);
+        }
+        this.$refs.map.mapObject.on("geosearch/showlocation", this.onSearch);
       }, 200);
   }
 };
