@@ -11,14 +11,14 @@
       position.lng || userLocation.lng || defaultLocation.lng
     ]"
   >
-      <v-btn style="z-index: 1000;" @click="$emit('close_map')" color="primary" fab fixed top right>
+      <v-btn style="z-index: 1000; height: 42px !important; width:42px !important;" @click="$emit('close_map')" color="primary" fab fixed top right>
         <v-icon
         dark
         >
             mdi-close       
          </v-icon>
         </v-btn>
-         <v-btn class="text-capitalize" style="z-index: 1000;" @click="getLocation" color="primary" rounded x-large fixed left bottom>
+         <v-btn class="text-capitalize" style="z-index: 1000; height: 42px !important;" @click="getLocation" color="primary" rounded x-large fixed top left>
             <v-icon
               left
             >
@@ -26,7 +26,7 @@
             </v-icon>
            Choose Location
         </v-btn>
-      <v-btn @click="getUserPosition" style="z-index: 1000;" color="secondary" fab fixed bottom right>
+      <v-btn @click="getUserPosition" style="z-index: 1000; height: 42px !important; width:42px !important;" color="secondary" fab fixed bottom right>
         <v-img height="24" width="24" :src="require('../../assets/pin.png')" contain></v-img>
         </v-btn>
     <l-tile-layer

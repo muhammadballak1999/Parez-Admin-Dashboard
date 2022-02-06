@@ -53,3 +53,7 @@ td {
   min-width: 9rem !important;
   white-space: nowrap !important;
 }
+
+.leaflet-top {
+  top: 70px !important;
+}
