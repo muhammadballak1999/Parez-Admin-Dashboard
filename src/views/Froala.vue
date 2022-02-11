@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="mt-6">
-    <froala id="edit" :tag="'textarea'" :config="config" v-model="content"></froala>
+    <froala @input="update" id="edit" :tag="'textarea'" :config="config" v-model="content"></froala>
     <div class="d-flex align-center justify-center mt-6">
       <v-btn 
       @click="updateTermsAndConditions" 
