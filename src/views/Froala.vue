@@ -1,13 +1,10 @@
 <template>
 <div>
-  <global-header module="term & condition" title="Terms and Conditions" :items="breadcrumps" />
   <div class="mt-6">
-    <froala @input.capture="update" id="edit" :tag="'textarea'" :config="config" v-model="content"></froala>
+    <froala id="edit" :tag="'textarea'" :config="config" v-model="content"></froala>
     <div class="d-flex align-center justify-center mt-6">
       <v-btn 
-      :loading="loading" 
       @click="updateTermsAndConditions" 
-      :disabled="!isUpdated" 
       rounded 
       class="text-capitalize mb-4" 
       color="primary">
@@ -18,30 +15,39 @@
 </div>
 </template>
 <script>
-import { VueEditor } from "vue2-editor";
 import { REQUEST } from '../Request';
 import { GET, PUT } from '../Request/requestMethods'
 export default{
     data() {
         return {
-        id: null,
-        isUpdated: false,
-        loading: false,
         content: '',
-        currentContent: '',
-        breadcrumps: [
-        {
-          text: 'Home',
-          disabled: false,
-          href: '/',
-        },
-        {
-          text: 'Terms and Conditions',
-          disabled: true,
-          href: 'termsandconditions',
-        },
-      ],
-      config: {
+        id: null,
+        config: {
+        pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontAwesome', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageTUI', 'imageManager', 'inlineStyle', 'inlineClass', 'lineBreaker', 'lineHeight', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'table', 'url', 'video', 'wordPaste'],
+        events: {
+          initialized: function () {
+            console.log('initialized')
+          },
+        "image.beforeUpload": function(files) {
+        var editor = this;
+        if (files.length) {
+            // Create a File Reader.
+            var reader = new FileReader();
+            // Set the reader to insert images when they are loaded.
+            reader.onload = function(e) {
+            var result = e.target.result;
+            editor.image.insert(result, null, null, editor.image.get());
+            };
+            // Read image as base64.
+            reader.readAsDataURL(files[0]);
+        }
+        editor.popups.hideAll();
+        // Stop default upload chain.
+        return false;
+        }
+            }
+      },
+     config: {
         pluginsEnabled: ['align', 'charCounter', 'codeBeautifier', 'codeView', 'colors', 'draggable', 'embedly', 'emoticons', 'entities', 'file', 'fontAwesome', 'fontFamily', 'fontSize', 'fullscreen', 'image', 'imageTUI', 'imageManager', 'inlineStyle', 'inlineClass', 'lineBreaker', 'lineHeight', 'link', 'lists', 'paragraphFormat', 'paragraphStyle', 'quickInsert', 'quote', 'table', 'url', 'video', 'wordPaste'],
         events: {
           initialized: function () {
@@ -68,24 +74,15 @@ export default{
       },
         }
     },
-    components: {
-      VueEditor
-    },
     methods: {
-        update() {
-          setTimeout(() => {
-            if(this.content !== this.currentContent)
-            this.isUpdated = true;
-            else
-            this.isUpdated = false;
-          }, 100);
+        test() {
+            console.log(this.content);
         },
         async getTermsAndConditions() {
             let response = await REQUEST('/terms-and-conditions', GET);
             this.id = response.data.id;
             this.content = response.data.content.replaceAll('&lt;', '<');
-            this.currentContent = response.data.content.replaceAll('&lt;', '<');
-            this.update();
+            // this.currentContent = response.data.content.replaceAll('&lt;', '<');
         },
         async updateTermsAndConditions() {
             this.loading = true;
@@ -93,10 +90,10 @@ export default{
             this.loading = false;
             this.getTermsAndConditions();
         }
-      },
-     async mounted() {
-       await this.getTermsAndConditions();
-      }
+    },
+    mounted() {
+        this.getTermsAndConditions();
+    }
 }
 </script>
 

@@ -42,6 +42,12 @@ const routes = [
         name: 'about',
         meta: {requiresAuth: true},
         component: () => import('../views/About.vue'),
+      },
+      {
+        path: '/froala',
+        name: 'froala',
+        meta: {requiresAuth: true},
+        component: () => import('../views/Froala.vue'),
       }
     ]
   },
