@@ -57,3 +57,8 @@ td {
 .leaflet-top {
   top: 70px !important;
 }
+
+.fr-wrapper {
+  max-height: 40vh;
+  overflow-y: auto;
+}

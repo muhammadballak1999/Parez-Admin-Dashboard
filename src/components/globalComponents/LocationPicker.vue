@@ -192,7 +192,7 @@ export default {
           this.show = true;
       }, 100);
       setTimeout(() => {
-        if(this.pos) {
+        if(this.pos && this.pos.lat !==0 && this.pos.lng !== 0) {
           this.position = this.pos;
         }else{
          this.getUserPosition();

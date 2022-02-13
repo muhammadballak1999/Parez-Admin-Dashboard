@@ -13,7 +13,6 @@
           <v-spacer></v-spacer>
           <v-btn
             color="error"
-            text
             @click="$emit('close_dialog')"
           >
             Close
