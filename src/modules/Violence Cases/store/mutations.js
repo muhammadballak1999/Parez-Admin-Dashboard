@@ -1,3 +1,4 @@
 
-export function USERS_MUTATION (state, payload) {
+export function GET_VIOLENCE_CASES (state, payload) {
+    state.data = payload;
 }

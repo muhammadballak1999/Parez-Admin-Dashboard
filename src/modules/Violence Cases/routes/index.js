@@ -1,4 +1,4 @@
-import ViolenceCases from '../views/ViolenceCases.vue'
+import ViolenceCases from '../views/ViolenceCases.vue';
 
 const routes = [
     {

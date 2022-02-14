@@ -13,6 +13,7 @@
     "dotenv": "^10.0.0",
     "leaflet": "^1.7.1",
     "leaflet-geosearch": "^3.6.0",
+    "leaflet-routing-machine": "^3.2.12",
     "mapbox-gl": "^2.6.1",
     "rm": "^0.1.8",
     "vue": "^2.6.11",
