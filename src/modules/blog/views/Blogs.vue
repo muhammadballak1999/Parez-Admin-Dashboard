@@ -156,7 +156,7 @@ export default{
     methods: {
       ...mapActions('blogStore', ['getBlogs', 'createBlog', 'updateBlog', 'deleteBlog', 'deleteBlogImage']),
        async submit() {
-          this.$refs.form.validate();
+          await this.$refs.form.validate();
           if(this.valid) {
             this.dialog = false;
             if(this.dataURI){
