@@ -459,7 +459,7 @@ export default {
   }
 </script>
 
-<style lang="scss" scoped>
+<style>
 div.search-input {
   max-width: 25% !important;
 }
@@ -473,4 +473,5 @@ div.search-input {
 .active-tab {
   color: black;
 }
+
 </style>

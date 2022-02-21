@@ -33,6 +33,34 @@
    <template v-slot:item.index="{ index }">
      {{index}}
     </template>
+
+     <template v-slot:item.status="{ item }">
+     <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          text
+          rounded
+          class="text-capitalize"
+          v-bind="attrs"
+          v-on="on"
+        >
+        <v-icon color="primary">mdi-chevron-down</v-icon>
+        {{item.status.status}}
+        </v-btn>
+        </template>
+
+      <v-list>
+        <v-list-item 
+        @click="updateViolenceCaseStatus({id: item.id, status: status.id});" 
+        v-for="status in  statusList" 
+        :key="status.key" 
+        :disabled="status.id === item.status.id">
+          <v-list-item-title>{{status['status']}}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+     </v-menu>
+    </template>
     <template v-slot:item.actions="{ item }">
       <v-menu
         bottom
@@ -95,6 +123,8 @@
 <script>
 import ShowOnMap from '../components/ShowOnMap.vue';
 import { mapState, mapActions } from 'vuex';
+import { REQUEST } from '../../../Request';
+import { GET } from '../../../Request/requestMethods';
 export default {
   data() {
     return {
@@ -113,6 +143,7 @@ export default {
       showMap: false,
       waypoints: [],
       location: {},
+      statusList: [],
       dialog: false,
       mapDialog: false,
       headers: [
@@ -120,8 +151,8 @@ export default {
         {text: 'Police station', align: 'start', sortable: false, value: 'police_station.name'},
         {text: 'Victim', align: 'start', sortable: false, value: 'victim.name'},
         { text: 'Occured at', value: 'createdAt', sortable: false },
-        { text: 'Show on map', value: 'map', sortable: false },
-        { text: 'Status', value: 'status.status', sortable: false },
+        { text: 'Show on map', value: 'map', align:'center', sortable: false },
+        { text: 'Status', value: 'status', align:'center', sortable: false },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
     }
@@ -133,17 +164,38 @@ export default {
       ...mapState('violenceCasesStore', ['data']),
   },
   methods: {
-    ...mapActions('violenceCasesStore', ['getViolenceCases']),
+    ...mapActions('violenceCasesStore', ['getViolenceCases', 'updateViolenceCaseStatus']),
+    // itemColor(item) {
+
+    //   if(item.status['status'] === 'pending')
+    //   return 'yellow';
+
+    //   if(item.status['status'] === 'approved')
+    //   return 'yellow accent-1';
+
+    //   if(item.status['status'] === 'solved')
+    //   return 'green accent-1';
+
+    //   if(item.status['status'] === 'rejected')
+    //   return 'red accent-1';
+      
+    // },
     getAddress(payload) {
       console.log(payload);
       this.dialog = false;
     },
+      test(a, b) {
+        console.log(a);
+        console.log(b);
+      }
   },
-  created() {
+ async created() {
     try{
     this.loading = true;
     this.getViolenceCases();
     this.loading = false;
+    let response = await REQUEST('/case-status', GET);
+    this.statusList = response.data;
     }catch{
       this.loading = false;
     }

@@ -12,9 +12,9 @@ html, body {
    margin-right: 0 !important;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
     background-color: #FFE082 !important;
-}
+} */
 
 .map {
   height: 100vh !important;
