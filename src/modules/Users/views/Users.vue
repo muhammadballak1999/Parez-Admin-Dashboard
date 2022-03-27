@@ -109,16 +109,6 @@
          required
       ></v-text-field>
       <v-text-field
-        v-model="user.username"
-        ref="username"
-        label="Username"
-        outlined
-        dense
-        autocomplete="username"
-        :rules="usernameRules"
-         required
-      ></v-text-field>
-      <v-text-field
         v-model="user.email"
         ref="email"
         label="E-mail"
@@ -154,7 +144,7 @@
       outlined 
       :error-messages="error ? 'Please write a valid phone number!' : ''"
       :rules="phoneRules"
-      v-model="user.phone">
+      v-model="phone">
       </vue-tel-input-vuetify>
       <v-select
         :loading="!areListsLoaded"
@@ -203,6 +193,7 @@
         :rules="longitudeRules"
       ></v-text-field>
         <v-select
+        v-if="type && type.role === 'user'"
         :loading="!areListsLoaded"
         :disabled="!areListsLoaded"
         :items="marital_statuses"
@@ -261,24 +252,21 @@ export default {
       dialog: false,
       map_dialog: false,
       valid: true,
+      phone: null,
       user: {
-        name: '',
-        username: '',
-        email: '',
-        password: '',
+        name: 'admin',
+        email: 'admin@test.com',
+        password: '11111111',
         location: '',
         longitude: null,
         latitude: null,
         phone: null,
-        city: '',
+        city: 'Erbil',
         type: null,
         marital_status: null
       },
       nameRules:[
         v => !!v || 'Name is required!',
-      ],
-      usernameRules:[
-        v => !!v || 'Username is required!',
       ],
       emailRules: [
         v => !!v || 'E-mail is required!',
@@ -317,7 +305,6 @@ export default {
       headers: [
         {text: '#', align: 'start', sortable: false, value: 'index'},
         {text: 'Name', align: 'start', sortable: false, value: 'name'},
-        {text: 'Username', align: 'start', sortable: false, value: 'username'},
         { text: 'Phone', value: 'phone', sortable: false },
         { text: 'E-Mail', value: 'email', sortable: false },
         { text: 'Address', value: 'location', sortable: false },
@@ -329,6 +316,15 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false },
       ],
     }),
+    watch: {
+      dialog:{
+      deep: true,
+      async handler(val) {
+        if(!val)
+        this.clear();
+      }
+      }
+    },
     components: {
       VueTelInputVuetify
     },
@@ -391,9 +387,8 @@ export default {
       selectFields(user) {
         this.id = user.id
         this.user.name = user.name;
-        this.user.username = user.username;
         this.user.email = user.email;
-        this.user.phone = user.phone;
+        this.phone = user.phone;
         this.user.marital_status = user.marital_status ? user.marital_status.id : null;
         this.user.location = user.location;
         this.user.city = user.city;
@@ -407,11 +402,14 @@ export default {
       },
     async submit() {
         await this.$refs.form.validate();
-        if(!this.user.phone || isNaN(Number(this.user.phone.replaceAll(' ', '')))){
+        if(!this.phone || isNaN(Number(this.phone.replaceAll(' ', '')))){
           this.error = true;
         }else{
           this.error = false;
         }
+
+        this.user.phone =  this.phone.replaceAll(' ', '')
+        this.user.phone = this.phone.startsWith("0") ? this.user.phone.substring(1, this.user.phone.length) : this.user.phone
 
         if(!this.error  && this.valid) {
           this.dialog = false;
@@ -448,6 +446,7 @@ export default {
       this.areListsLoaded = false;
       let res_1 = await REQUEST('/roles', GET);
       let res_2 = await REQUEST('/marital-status', GET);
+      console.log(res_2);
       if(res_1.success && res_2.success){
         this.roles = res_1.data;
         this.marital_statuses = res_2.data;

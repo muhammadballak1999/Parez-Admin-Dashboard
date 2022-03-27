@@ -85,6 +85,7 @@ export default{
         },
         async updateTermsAndConditions() {
             this.loading = true;
+            console.log(this.content);
             let response = await REQUEST(`/terms-and-conditions/${this.id}`, PUT, {content: this.content});
             this.loading = false;
             this.getTermsAndConditions();

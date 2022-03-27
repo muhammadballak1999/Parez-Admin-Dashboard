@@ -6,7 +6,7 @@
         </div>
         <div class="d-flex justify-space-between">
         <v-breadcrumbs
-            class="pl-0"
+            class="pl-0 pt-2"
             :items="items"
             divider="/"
         ></v-breadcrumbs>

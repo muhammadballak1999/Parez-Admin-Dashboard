@@ -13,6 +13,7 @@ export const REQUEST = async (resource, method, payload, noToken) => {
       response = await axios[method](`${process.env.VUE_APP_API_URL}${resource}`, payload, {headers: {authorization: localStorage.getItem('accessToken')}});
       return response.data
      }catch(err) {
+       console.log(err.response)
       return {error: true, ...err.response.data};
      }
   }else{  
