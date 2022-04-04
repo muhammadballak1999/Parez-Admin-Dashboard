@@ -7,6 +7,7 @@
     :items="data"
     :items-per-page="10"
     class="elevation-4"
+    :item-class="itemColor"
     :loading="loading && data.length === 0"
     >
      <template v-slot:top>
@@ -61,7 +62,7 @@
       </v-list>
      </v-menu>
     </template>
-    <template v-slot:item.actions="{ item }">
+    <!-- <template v-slot:item.actions="{ item }">
       <v-menu
         bottom
         left
@@ -90,7 +91,7 @@
             </v-list-item>
         </v-list>
         </v-menu>
-    </template>
+    </template> -->
     <template v-slot:item.map="{ item }">
         <v-btn @click="waypoints = [
         {lat: item.police_station.police_station.latitude, lng: item.police_station.police_station.longitude},
@@ -153,7 +154,7 @@ export default {
         { text: 'Occured at', value: 'createdAt', sortable: false },
         { text: 'Show on map', value: 'map', align:'center', sortable: false },
         { text: 'Status', value: 'status', align:'center', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false },
+        // { text: 'Actions', value: 'actions', sortable: false },
       ],
     }
   },
@@ -165,21 +166,21 @@ export default {
   },
   methods: {
     ...mapActions('violenceCasesStore', ['getViolenceCases', 'updateViolenceCaseStatus']),
-    // itemColor(item) {
+    itemColor(item) {
 
-    //   if(item.status['status'] === 'pending')
-    //   return 'yellow';
+      if(item.status['status'] === 'pending')
+      return 'yellow accent-1';
 
-    //   if(item.status['status'] === 'approved')
-    //   return 'yellow accent-1';
+      if(item.status['status'] === 'approved')
+      return 'yellow accent-1';
 
-    //   if(item.status['status'] === 'solved')
-    //   return 'green accent-1';
+      if(item.status['status'] === 'solved')
+      return 'green accent-1';
 
-    //   if(item.status['status'] === 'rejected')
-    //   return 'red accent-1';
+      if(item.status['status'] === 'rejected')
+      return 'red accent-1';
       
-    // },
+    },
     getAddress(payload) {
       console.log(payload);
       this.dialog = false;
