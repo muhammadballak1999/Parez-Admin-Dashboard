@@ -9,6 +9,10 @@ export const getViolenceCases = async ({commit}) => {
 
 export const updateViolenceCaseStatus = async ({dispatch}, payload) => {
     let response = await REQUEST(`/violence-cases/${payload.id}/${payload.status}`, PUT)
+    if(!response.success)
+    {
+        toast('User is already in pending!', 'error')
+    }
     dispatch('getViolenceCases');
 }
 

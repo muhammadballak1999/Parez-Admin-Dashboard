@@ -61,9 +61,9 @@ export const updateUser = async ({dispatch}, payload) => {
     }
 }
 
-export const deleteUser = async ({dispatch}, payload) => {
+export const deactivate = async ({dispatch}, payload) => {
 
-    let response = await REQUEST(`/users/${payload.id}`, DELETE);
+    let response = await REQUEST(`/users/${payload.id}/deactivate`, PUT);
     if(response.success) {
         if(payload.type === 'admins'){
             dispatch('getAdmins');
@@ -73,6 +73,23 @@ export const deleteUser = async ({dispatch}, payload) => {
             dispatch('getPoliceStations');
         }
         toast('User deactivated successfully', 'success');
+    }else{
+        toast('Something went wrong!', 'error');
+    }
+}
+
+export const activate = async ({dispatch}, payload) => {
+
+    let response = await REQUEST(`/users/${payload.id}/activate`, PUT);
+    if(response.success) {
+        if(payload.type === 'admins'){
+            dispatch('getAdmins');
+        }else if(payload.type === 'users'){
+            dispatch('getUsers');
+        }else{
+            dispatch('getPoliceStations');
+        }
+        toast('User activated successfully', 'success');
     }else{
         toast('Something went wrong!', 'error');
     }

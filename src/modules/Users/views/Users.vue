@@ -71,9 +71,14 @@
             </v-list-item-title>
             </v-list-item>
             <v-spacer></v-spacer>
-            <v-list-item @click="id = item.id; delete_alert = true;" ripple>
+            <v-list-item v-if="!item.isSuspended" @click="id = item.id; method= 'deactivate'; delete_alert = true;" ripple>
             <v-list-item-title>
              <p class="mb-0 error--text"><v-icon class="mr-1" color="error" small>mdi-alert-octagon-outline</v-icon>Deactivate</p>
+            </v-list-item-title>
+            </v-list-item>
+            <v-list-item v-else @click="id = item.id; method= 'activate'; delete_alert = true;" ripple>
+            <v-list-item-title>
+             <p class="mb-0 success--text"><v-icon class="mr-1" color="success" small>mdi-alert-octagon-outline</v-icon>Activate</p>
             </v-list-item-title>
             </v-list-item>
         </v-list>
@@ -214,7 +219,7 @@
       v-model="delete_alert"
       width="350px"
   >
-  <global-delete-alert @close="id = null; delete_alert = false;" @submit="removeUser(); delete_alert = false;" />
+  <global-delete-alert @close="id = null; delete_alert = false;" @submit="userSuspension(); delete_alert = false;" />
   </v-dialog>
   <v-dialog
       v-model="map_dialog"
@@ -237,6 +242,7 @@ export default {
       tab: 'admins',
       keyword: '',
       action: 'create',
+      method: '',
       areListsLoaded: false,
       id: null,
       error: false,
@@ -362,7 +368,7 @@ export default {
       }
     },
     methods: {
-      ...mapActions('userStore', ['getAdmins', 'getUsers', 'getPoliceStations', 'createUser', 'updateUser', 'deleteUser']),
+      ...mapActions('userStore', ['getAdmins', 'getUsers', 'getPoliceStations', 'createUser', 'updateUser', 'activate', 'deactivate']),
      async initialize () {
        this.loading = true;
         await this.getAdmins();
@@ -431,8 +437,11 @@ export default {
           this.$refs.form.reset();
         }
       },
-     async removeUser() {
-        await this.deleteUser({id: this.id, type: this.tab});
+     async userSuspension() {
+       if(this.method === 'deactivate')
+        await this.deactivate({id: this.id, type: this.tab});
+        else
+        await this.activate({id: this.id, type: this.tab})
         this.id = null;
       },
       clear() {
