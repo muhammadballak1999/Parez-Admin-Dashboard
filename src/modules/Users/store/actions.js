@@ -37,9 +37,12 @@ export const createUser = async ({dispatch}, payload) => {
             dispatch('getPoliceStations');
         }
         toast('User created successfully', 'success');
-    }else{
-        toast('Something went wrong!', 'error');
+    }else  {
+       if(response.error) {
+        toast(response.message, 'error');
+        }
     }
+    return response;
 }
 
 
@@ -56,9 +59,11 @@ export const updateUser = async ({dispatch}, payload) => {
         }
         toast('User updated successfully', 'success');
     }else{
-        console.log(response);
-        toast('Something went wrong!', 'error');
+        if(response.error) {
+        toast(response.message, 'error');
+        }
     }
+    return response;
 }
 
 export const deactivate = async ({dispatch}, payload) => {
@@ -74,7 +79,7 @@ export const deactivate = async ({dispatch}, payload) => {
         }
         toast('User deactivated successfully', 'success');
     }else{
-        toast('Something went wrong!', 'error');
+        toast(response.message, 'error');
     }
 }
 

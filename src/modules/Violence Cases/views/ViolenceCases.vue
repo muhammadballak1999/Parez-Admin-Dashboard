@@ -34,7 +34,9 @@
    <template v-slot:item.index="{ index }">
      {{index}}
     </template>
-
+   <template v-slot:item.createdAt="{ item }">
+     {{item.createdAt | dateFormat}}
+    </template>
      <template v-slot:item.status="{ item }">
      <v-menu>
         <template v-slot:activator="{ on, attrs }">
@@ -163,6 +165,12 @@ export default {
   },
   computed: {
       ...mapState('violenceCasesStore', ['data']),
+  },
+  filters: {
+    dateFormat(val) {
+      let date = new Date(val);
+      return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}`
+    }
   },
   methods: {
     ...mapActions('violenceCasesStore', ['getViolenceCases', 'updateViolenceCaseStatus']),

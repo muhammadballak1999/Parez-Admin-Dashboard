@@ -73,6 +73,8 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import { REQUEST } from '../Request';
+import { GET } from '../Request/requestMethods';
 export default {
   name: 'App',
   data() {
@@ -148,6 +150,14 @@ export default {
       this.activate(this.navigations[i].id)
       }
     }
+  },
+  async mounted() {
+    let response = await REQUEST("/me", GET)
+    console.log(response)
+      if(response.data.isSuspended) {
+      localStorage.removeItem('accessToken');
+      location.replace('/')
+      }
   }
 };
 </script>

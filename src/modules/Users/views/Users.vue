@@ -96,7 +96,7 @@
       v-model="dialog"
       width="600px"
   >
-  <global-dialog-content :action="action" title="user" @submit="submit" @close_dialog="clear(); dialog = false;">
+  <global-dialog-content :loading="crudLoading" :action="action" title="user" @submit="submit" @close_dialog="clear(); dialog = false;">
     <template v-slot:dialog-content>
       <v-form
         ref="form"
@@ -254,6 +254,7 @@ export default {
       marital_statuses: [],
       delete_alert: false,
       loading: false,
+      crudLoading: false,
       location: {},
       dialog: false,
       map_dialog: false,
@@ -418,7 +419,8 @@ export default {
         this.user.phone = this.phone.startsWith("0") ? this.user.phone.substring(1, this.user.phone.length) : this.user.phone
 
         if(!this.error  && this.valid) {
-          this.dialog = false;
+          let res = null
+          this.crudLoading = true;
           if(this.action === 'create') {
             this.user.type = this.type.id;
             if(this.type.role === 'admin'){
@@ -428,13 +430,16 @@ export default {
             }else{
               this.tab = 'police stations'
             }
-            await this.createUser({user: this.user, type: this.type.role});
+           res = await this.createUser({user: this.user, type: this.type.role});
           }else{
             this.user.type = undefined;
-            await this.updateUser({user: this.user, id: this.id, type: this.tab});
-            this.id = null;
+            res = await this.updateUser({user: this.user, id: this.id, type: this.tab});
           }
+          this.crudLoading = false;
+          if(res.success) {
+          this.dialog = false;
           this.$refs.form.reset();
+          }
         }
       },
      async userSuspension() {

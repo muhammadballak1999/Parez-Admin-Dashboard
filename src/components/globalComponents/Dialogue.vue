@@ -17,6 +17,7 @@
           <v-btn
             color="primary"
             @click="$emit('submit')"
+            :loading="loading"
           >
             Submit
           </v-btn>
@@ -25,7 +26,7 @@
 </template>
 <script>
 export default {
-    props: ["action", "title"]
+    props: ["action", "title", "loading"]
 }
 </script>
 <style scoped>
