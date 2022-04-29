@@ -1,11 +1,11 @@
 <template>
       <v-card>
         <v-card-title class="text-h5 accent">
-          Warning!
+          {{$t('label.warning')}}
         </v-card-title>
 
         <v-card-text class="text-h6 mt-4">
-            Are you sure?
+            {{$t('label.doubleCheck')}}
         </v-card-text>
 
         <v-divider></v-divider>
@@ -15,6 +15,7 @@
         <v-btn
             color="error"
             @click="$emit('close')"
+            class="ml-2"
           >
            Close
           </v-btn>

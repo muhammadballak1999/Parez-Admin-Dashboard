@@ -10,6 +10,34 @@
     >
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-spacer />
+      <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="white"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          text
+          class="ml-2"
+        >
+        <v-icon>
+          mdi-web
+        </v-icon>
+          {{lang}}
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item @click="changeLang('en')">
+          <v-list-item-title>English</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="changeLang('ku')">
+          <v-list-item-title>کوردی</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="changeLang('ar')">
+          <v-list-item-title>عربی</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
           <v-menu
         bottom
         left
@@ -135,6 +163,16 @@ export default {
       ]
     }
   },
+  computed: {
+    lang() {
+      if(localStorage.getItem('lang') === 'en')
+      return 'English'
+      else if(localStorage.getItem('lang') === 'ar') 
+      return 'عربی'
+      else
+      return 'کوردی'
+    }
+  },
   methods : {
     ...mapMutations('authStore',['SIGN_OUT']),
     activate(id) {
@@ -142,6 +180,10 @@ export default {
     },
    async logout() {
        await this.SIGN_OUT();
+    },
+    changeLang(lang) {
+      localStorage.setItem('lang', lang)
+      window.location.reload();
     }
   },
  async created() {

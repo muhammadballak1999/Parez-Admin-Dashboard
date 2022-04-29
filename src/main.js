@@ -30,6 +30,8 @@ import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 // Import and use Vue Froala lib.
 import VueFroala from 'vue-froala-wysiwyg'
+import i18n from './i18n'
+
 Vue.use(VueFroala)
 
 let global_components = [
@@ -83,6 +85,7 @@ Vue.use(VueTelInputVuetify, {
 Vue.config.productionTip = false;
 
 new Vue({
+  i18n,
   router,
   store,
   vuetify,

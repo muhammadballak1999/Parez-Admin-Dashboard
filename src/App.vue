@@ -9,6 +9,11 @@
 <script>
 export default {
   name: 'App',
+  beforeCreate() {
+    if(localStorage.getItem('lang') !== 'en') {
+      document.querySelector('*').setAttribute('style', 'direction: rtl;')
+    }
+  }
 }
 </script>
 <style>

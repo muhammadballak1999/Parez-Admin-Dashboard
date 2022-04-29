@@ -12,7 +12,7 @@
             color="error"
             @click="$emit('close_dialog')"
           >
-            Cancle
+            {{$t('label.close')}}
           </v-btn>
           <v-btn
             color="primary"
