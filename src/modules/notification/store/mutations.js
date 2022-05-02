@@ -1,3 +1,4 @@
 
-export function NOTIFICATION_MUTATION (state, payload) {
+export function GET_NOTIFICATIONS (state, payload) {
+    state.notifications = payload
 }

@@ -5,6 +5,7 @@ import blogStore from '../modules/blog/store';
 import statisticsStore from '../modules/statistics/store';
 import rulesStore from '../modules/Announcements and rules/store';
 import userStore from '../modules/Users/store';
+import notificationStore from '../modules/notification/store';
 import violenceCasesStore from '../modules/Violence Cases/store';
 
 Vue.use(Vuex)
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     statisticsStore,
     rulesStore,
     userStore,
-    violenceCasesStore
+    violenceCasesStore,
+    notificationStore
   }
 })

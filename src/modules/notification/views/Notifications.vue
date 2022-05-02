@@ -1,13 +1,93 @@
 <template>
-  <global-header module="notification" @click_event="test" title="Notifications" :items="breadcrumps" />
+<v-col class="pl-0">
+  <global-header module="notification" @click_event="action = 'create'; dialog = true;" title="Notifications" :items="breadcrumps" />
+    <v-data-table
+      :headers="headers"
+      :items="notifications"
+      class="elevation-4 mt-6"
+    >
+      <template v-slot:item.send="{ item }">
+        <v-btn @click="sendNotification(item)" :loading="item.send" class="text-capitalize secondary">
+          Send notification
+        </v-btn>
+      </template>
+          <template v-slot:item.actions="{ item }">
+      <v-menu
+        bottom
+        left
+        >
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+            >
+            <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+        </template>
+
+        <v-list>
+            <v-list-item @click="action = 'update'; selectFields(item);" ripple>
+            <v-list-item-title>
+             <p class="mb-0 amber--text"><v-icon class="mr-1" color="amber" small>mdi-pencil</v-icon>Edit</p>
+            </v-list-item-title>
+            </v-list-item>
+            <v-spacer></v-spacer>
+            <v-list-item @click="id = item.id;; delete_alert = true;" ripple>
+            <v-list-item-title>
+             <p class="mb-0 error--text"><v-icon class="mr-1" color="error" small>mdi-delete</v-icon>Delete</p>
+            </v-list-item-title>
+            </v-list-item>
+        </v-list>
+        </v-menu>
+    </template>
+    </v-data-table>
+    <v-dialog
+      v-model="dialog"
+      width="600px"
+  >
+  <global-dialog-content :loading="loading" :action="action" title="notification" @submit="submit" @close_dialog="clear(); dialog = false;">
+    <template v-slot:dialog-content>
+      <v-form
+        ref="form"
+        class="form"
+        v-model="valid"
+        lazy-validation
+       >
+      <v-text-field
+        v-model="item.title"
+        ref="title"
+        label="Title"
+        outlined
+        dense
+        :rules="titleRules"
+         required
+      ></v-text-field>
+            <v-text-field
+        v-model="item.content"
+        ref="content"
+        label="Content"
+        outlined
+        dense
+        :rules="contentRules"
+         required
+      ></v-text-field>
+      </v-form>
+    </template>
+    </global-dialog-content>
+    </v-dialog>
+    <v-dialog
+      v-model="delete_alert"
+      width="350px"
+    >
+    <global-delete-alert @close="id = null; delete_alert = false;" @submit="deleteNotification(id), delete_alert = false;" />
+    </v-dialog>
+</v-col>
+  
 </template>
 <script>
+import { mapActions, mapState } from 'vuex';
 export default{
-    methods: {
-        test() {
-            console.log("Hello")
-        }
-    },
     data() {
         return {
         breadcrumps: [
@@ -22,7 +102,71 @@ export default{
           href: 'notifications',
         },
       ],
+          headers: [
+          {
+            text: 'title',
+            align: 'start',
+            sortable: false,
+            value: 'title',
+          },
+          { text: 'content', value: 'content', sortable: false},
+          { text: 'send', value: 'send', sortable: false},
+          { text: 'action', value: 'actions', sortable: false},
+        ],
+        id: null,
+        action: "",
+        item: {
+          title: "",
+          content: ""
+        },
+        dialog: false,
+        delete_alert: false,
+        loading: false,
+        valid: false,
+        titleRules: [v => !!v || 'Title is required!'],
+        contentRules: [v => !!v || 'Content is required!']
         }
+    },
+    computed: {
+      ...mapState('notificationStore', ['notifications'])
+    },
+     methods: {
+      ...mapActions('notificationStore', ['getNotifications', 'createNotification', 'updateNotification', 'deleteNotification']),
+        sendNotification(item) {
+            this.notifications[this.notifications.indexOf(item)].send = true;
+            setTimeout(() => {
+            this.notifications[this.notifications.indexOf(item)].send = false;
+            }, 2000);
+        },
+        selectFields(item) {
+          this.id = item.id;
+          this.item.title = item.title;
+          this.item.content = item.content;
+          this.dialog = true;
+        },
+        clear() {
+          this.item.title = "";
+          this.item.content = "";
+        },
+       async submit() {
+         
+          await this.$refs.form.validate()
+          if(this.valid) {
+            this.loading = true;
+          if(this.action === 'create')
+           await this.createNotification(this.item)
+          else
+           await this.updateNotification({id: this.id, body: this.item})
+          }
+          this.loading = false;
+        },
+
+        deleteNotif(id) {
+          this.deleteNotification(id);
+        }
+    },
+    mounted() {
+      this.getNotifications();
     }
 }
 </script>

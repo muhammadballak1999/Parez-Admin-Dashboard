@@ -195,7 +195,6 @@ export default {
   },
   async mounted() {
     let response = await REQUEST("/me", GET)
-    console.log(response)
       if(response.data.isSuspended) {
       localStorage.removeItem('accessToken');
       location.replace('/')
