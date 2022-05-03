@@ -11,6 +11,7 @@ import violenceCasesRoutes from '../modules/Violence Cases/routes';
 
 
 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -42,6 +43,12 @@ const routes = [
         name: 'about',
         meta: {requiresAuth: true},
         component: () => import('../views/About.vue'),
+      },
+      {
+        path: '/report',
+        name: 'report',
+        meta: {requiresAuth: true},
+        component: () => import('../views/Report.vue'),
       },
     ]
   },

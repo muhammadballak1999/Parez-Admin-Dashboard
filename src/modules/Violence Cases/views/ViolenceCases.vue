@@ -169,7 +169,7 @@ export default {
   filters: {
     dateFormat(val) {
       let date = new Date(val);
-      return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}`
+      return `${date.getFullYear()}.${date.getMonth()+1}.${date.getDate()}`
     }
   },
   methods: {

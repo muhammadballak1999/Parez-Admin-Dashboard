@@ -160,6 +160,12 @@ export default {
         icon: 'information-outline',
         root: '/about'
         },
+        {
+        id:8,
+        title: 'Report',
+        icon: 'chart-timeline',
+        root: '/report'
+        },
       ]
     }
   },

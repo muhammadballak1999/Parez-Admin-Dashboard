@@ -11,7 +11,11 @@
             divider="/"
         ></v-breadcrumbs>
         <v-btn
-        v-if="module !== 'statistics' && module !== 'term & condition' && module !== 'about' && module !== 'violence cases'"
+        v-if="module !== 'statistics' 
+         && module !== 'term & condition'
+         && module !== 'about' 
+         && module !== 'violence cases' 
+         && module !== 'report'"
         color="primary"
         large
         rounded
