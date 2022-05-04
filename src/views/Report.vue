@@ -46,7 +46,7 @@
         </v-date-picker>
       </v-menu>
          </div>
-      <v-btn height="40" color="success" class="ml-3 text-capitalize" :disabled="data.length === 0">
+      <v-btn @click="getExcelReport" height="40" color="success" class="ml-3 text-capitalize" :disabled="data.length === 0">
            <v-icon dark>
                 mdi-download
             </v-icon>
@@ -62,6 +62,7 @@
      {{item.createdAt | dateFormat}}
     </template>
     </v-data-table>
+    <iframe id="my_iframe" style="display:none;"></iframe>
 </div>
 </template>
 <script>
@@ -122,6 +123,10 @@ export default{
            if(response.success) {
                this.data = response.data
            }
+        },
+        async getExcelReport() {
+          document.getElementById('my_iframe').src = `${process.env.VUE_APP_API_URL}/violence-cases/csv/${this.date[0]}/${this.date[1]}`;
+          this.data = []
         }
     }
 }
