@@ -56,7 +56,7 @@
     <v-data-table
       :headers="headers"
       :items="data"
-      class="elevation-4 mt-2"
+      class="elevation-4 mt-2 mb-10"
     >
     <template v-slot:item.createdAt="{ item }">
      {{item.createdAt | dateFormat}}
@@ -126,7 +126,6 @@ export default{
         },
         async getExcelReport() {
           document.getElementById('my_iframe').src = `${process.env.VUE_APP_API_URL}/violence-cases/csv/${this.date[0]}/${this.date[1]}`;
-          this.data = []
         }
     }
 }

@@ -87,6 +87,8 @@
 </template>
 <script>
 import { mapActions, mapState } from 'vuex';
+import { REQUEST } from '../../../Request';
+import { GET, POST } from '../../../Request/requestMethods';
 export default{
     data() {
         return {
@@ -132,11 +134,19 @@ export default{
     },
      methods: {
       ...mapActions('notificationStore', ['getNotifications', 'createNotification', 'updateNotification', 'deleteNotification']),
-        sendNotification(item) {
+        async sendNotification(item) {
             this.notifications[this.notifications.indexOf(item)].send = true;
-            setTimeout(() => {
+            let payload = {
+              title: this.notifications[this.notifications.indexOf(item)].title,
+              content: this.notifications[this.notifications.indexOf(item)].content
+            }
+            try {
+            await REQUEST('/notifications/send/notification', POST, payload);
+            }catch(e) {
             this.notifications[this.notifications.indexOf(item)].send = false;
-            }, 2000);
+            }
+            this.notifications[this.notifications.indexOf(item)].send = false;
+
         },
         selectFields(item) {
           this.id = item.id;
@@ -157,6 +167,8 @@ export default{
            await this.createNotification(this.item)
           else
            await this.updateNotification({id: this.id, body: this.item})
+
+           this.dialog = false;
           }
           this.loading = false;
         },
