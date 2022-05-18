@@ -17,13 +17,13 @@
             @click="$emit('close')"
             class="ml-2"
           >
-           Close
+          {{$t('label.close')}}
           </v-btn>
           <v-btn
             color="primary"
             @click="$emit('submit')"
           >
-            I accept
+            {{$t('label.ok')}}
           </v-btn>
         </v-card-actions>
       </v-card>

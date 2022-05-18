@@ -1,6 +1,6 @@
 <template>
 <div>
-    <global-header module="violence cases" @click_event="dialog = true;" title="Violence Cases" :items="breadcrumps" />
+    <global-header module="violenceCases" @click_event="dialog = true;" :title="$t('label.violenceCases')" :items="breadcrumps" />
     <div class="mt-6 mb-6">
   <v-data-table
     :headers="headers"
@@ -9,13 +9,14 @@
     class="elevation-4"
     :item-class="itemColor"
     :loading="loading && data.length === 0"
+    :footer-props="{itemsPerPageText: $t('table.recordsPerPage')}"
     >
      <template v-slot:top>
       <v-toolbar
         flat
         color="accent"
       >
-      <v-toolbar-title class="text-capitalize">Violence Cases</v-toolbar-title>
+      <v-toolbar-title class="text-capitalize">{{$t('label.violenceCases')}}</v-toolbar-title>
         <!-- <v-spacer />
       <v-text-field
         outlined
@@ -49,7 +50,7 @@
           v-on="on"
         >
         <v-icon color="primary">mdi-chevron-down</v-icon>
-        {{item.status.status}}
+        {{$t(`label.${item.status.status.toLowerCase()}`)}}
         </v-btn>
         </template>
 
@@ -59,7 +60,7 @@
         v-for="status in  statusList" 
         :key="status.key" 
         :disabled="status.id === item.status.id">
-          <v-list-item-title>{{status['status']}}</v-list-item-title>
+          <v-list-item-title>{{$t(`label.${status['status'].toLowerCase()}`)}}</v-list-item-title>
         </v-list-item>
       </v-list>
      </v-menu>
@@ -98,10 +99,10 @@
         <v-btn @click="waypoints = [
         {lat: item.police_station.police_station.latitude, lng: item.police_station.police_station.longitude},
         {lat: item.latitude, lng: item.longitude}
-        ]; mapDialog = true;" class="text-capitalize" color="primary" rounded outlined> Show On Map</v-btn>
+        ]; mapDialog = true;" class="text-capitalize" color="primary" rounded outlined>{{$t('label.showOnMap')}}</v-btn>
     </template>
     <template v-slot:no-data>
-      No data is available!
+      {{$t('table.noData')}}
     </template>
     </v-data-table>
     </div>
@@ -133,12 +134,12 @@ export default {
     return {
       breadcrumps: [
         {
-          text: 'Home',
+          text: this.$t('label.home'),
           disabled: false,
           href: '/',
         },
         {
-          text: 'Violence Cases',
+          text: this.$t('label.violenceCases'),
           disabled: true,
           href: 'violencecases',
         },
@@ -151,11 +152,11 @@ export default {
       mapDialog: false,
       headers: [
         {text: '#', align: 'start', sortable: false, value: 'index'},
-        {text: 'Police station', align: 'start', sortable: false, value: 'police_station.name'},
-        {text: 'Victim', align: 'start', sortable: false, value: 'victim.name'},
-        { text: 'Occured at', value: 'createdAt', sortable: false },
-        { text: 'Show on map', value: 'map', align:'center', sortable: false },
-        { text: 'Status', value: 'status', align:'center', sortable: false },
+        {text: this.$t('label.policeStation'), align: 'start', sortable: false, value: 'police_station.name'},
+        {text: this.$t('label.victim'), align: 'start', sortable: false, value: 'victim.name'},
+        { text: this.$t('label.createdAt'), value: 'createdAt', sortable: false },
+        { text: this.$t('label.showOnMap'), value: 'map', align:'center', sortable: false },
+        { text: this.$t('label.status'), value: 'status', align:'center', sortable: false },
         // { text: 'Actions', value: 'actions', sortable: false },
       ],
     }

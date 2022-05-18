@@ -1,6 +1,6 @@
 <template>
 <v-col class="pa-0">
-  <global-header module="statistics" title="Statistics" :items="breadcrumps" />
+  <global-header module="statistics" :title="$t('label.statistics')" :items="breadcrumps" />
     <v-col class="statistics-container pa-5 accent">
         <v-card>
        <GChart
@@ -29,12 +29,12 @@ export default{
         return {
         breadcrumps: [
         {
-          text: 'Home',
+          text: this.$t('label.home'),
           disabled: false,
           href: '/',
         },
         {
-          text: 'Statistics',
+          text: this.$t('label.statistics'),
           disabled: true,
           href: 'statistics',
         },
@@ -49,21 +49,21 @@ export default{
       data: [
           {
             id: 0,
-            title: 'Total Cases',
+            title: this.$t('label.cases'),
             icon: 'receipt',
             value: '200',
             progress: 75
           },
           {
             id: 1,
-            title: 'Users',
+            title: this.$t('label.users'),
             icon: 'account-outline',
             value: '30',
             progress: 30
           },
           {
             id: 2,
-            title: 'Police stations',
+            title: this.$t('label.policeStation'),
             icon:'police-badge-outline',
             value: '10',
             progress: 40

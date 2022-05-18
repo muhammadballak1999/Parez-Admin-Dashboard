@@ -1,6 +1,6 @@
 <template>
 <div>
-     <global-header module="announcement & rule" @click_event="action='create'; open = true; dialog = true;" title="Announcements and Rules" :items="breadcrumps" />
+     <global-header module="announcementsAndRules" @click_event="action='create'; open = true; dialog = true;" :title="$t('label.announcementsAndRules')" :items="breadcrumps" />
         <div class="d-flex flex-column align-center">
           <v-progress-linear
             color="primary"
@@ -10,9 +10,9 @@
             v-if="loading && annoncementsAndRules.length === 0"
           ></v-progress-linear>
       <div v-if="!loading && annoncementsAndRules.length === 0" class="d-flex flex-column align-center">
-       <p class="mb-0">No Announcement and Rules are available!</p>
+       <p class="mb-0">{{$t('table.noData')}}</p>
        <v-btn text rounded @click="action='create'; open = true; dialog = true;" class="text-capitalize mt-2" color="primary">
-         Create Annonuncement and Rule
+         {{$t('label.create') + ' ' + $t('label.announcementsAndRules')}}
        </v-btn>
         </div>
    </div>
@@ -107,12 +107,12 @@ export default{
         return {
         breadcrumps: [
         {
-          text: 'Home',
+          text: this.$t('label.home'),
           disabled: false,
           href: '/',
         },
         {
-          text: 'Announcements and Rules',
+          text: this.$t('label.announcementsAndRules'),
           disabled: true,
           href: 'announcementsandrules',
         },

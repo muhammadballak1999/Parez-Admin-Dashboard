@@ -1,6 +1,6 @@
 <template>
 <div>
-  <global-header module="term & condition" title="Terms and Conditions" :items="breadcrumps" />
+  <global-header module="termsAndConditions" :title="$t('label.termsAndConditions')" :items="breadcrumps" />
   <div class="mt-6">
     <froala @input.capture="update" id="edit" :tag="'textarea'" :config="config" v-model="content"></froala>
     <div class="d-flex align-center justify-center mt-6">
@@ -11,7 +11,7 @@
       rounded 
       class="text-capitalize mb-4" 
       color="primary">
-        Submit
+        {{$t('label.update')}}
       </v-btn>
     </div>
   </div>
@@ -30,12 +30,12 @@ export default{
         currentContent: '',
         breadcrumps: [
         {
-          text: 'Home',
+          text: this.$t('label.home'),
           disabled: false,
           href: '/',
         },
         {
-          text: 'Terms and Conditions',
+          text: this.$t('label.termsAndConditions'),
           disabled: true,
           href: 'termsandconditions',
         },

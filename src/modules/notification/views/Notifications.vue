@@ -1,14 +1,15 @@
 <template>
 <v-col class="pl-0">
-  <global-header module="notification" @click_event="action = 'create'; dialog = true;" title="Notifications" :items="breadcrumps" />
+  <global-header module="notifications" @click_event="action = 'create'; dialog = true;" :title="$t('label.notifications')" :items="breadcrumps" />
     <v-data-table
       :headers="headers"
       :items="notifications"
       class="elevation-4 mt-6"
+      :footer-props="{itemsPerPageText: $t('table.recordsPerPage')}"
     >
       <template v-slot:item.send="{ item }">
         <v-btn @click="sendNotification(item)" :loading="item.send" class="text-capitalize secondary">
-          Send notification
+          {{$t('label.sendNotification')}}
         </v-btn>
       </template>
           <template v-slot:item.actions="{ item }">
@@ -29,13 +30,13 @@
         <v-list>
             <v-list-item @click="action = 'update'; selectFields(item);" ripple>
             <v-list-item-title>
-             <p class="mb-0 amber--text"><v-icon class="mr-1" color="amber" small>mdi-pencil</v-icon>Edit</p>
+             <p class="mb-0 amber--text"><v-icon class="mr-1" color="amber" small>mdi-pencil</v-icon>{{$t('label.update')}}</p>
             </v-list-item-title>
             </v-list-item>
             <v-spacer></v-spacer>
             <v-list-item @click="id = item.id;; delete_alert = true;" ripple>
             <v-list-item-title>
-             <p class="mb-0 error--text"><v-icon class="mr-1" color="error" small>mdi-delete</v-icon>Delete</p>
+             <p class="mb-0 error--text"><v-icon class="mr-1" color="error" small>mdi-delete</v-icon>{{$t('label.remove')}}</p>
             </v-list-item-title>
             </v-list-item>
         </v-list>
@@ -94,26 +95,26 @@ export default{
         return {
         breadcrumps: [
         {
-          text: 'Home',
+          text: this.$t('label.home'),
           disabled: false,
           href: '/',
         },
         {
-          text: 'Notifications',
+          text: this.$t('label.notifications'),
           disabled: true,
           href: 'notifications',
         },
       ],
           headers: [
           {
-            text: 'title',
+            text: this.$t('label.title'),
             align: 'start',
             sortable: false,
             value: 'title',
           },
-          { text: 'content', value: 'content', sortable: false},
-          { text: 'send', value: 'send', sortable: false},
-          { text: 'action', value: 'actions', sortable: false},
+          { text: this.$t('label.content'), value: 'content', sortable: false},
+          { text: this.$t('label.sendNotification'), value: 'send', sortable: false},
+          { text: this.$t('label.action'), value: 'actions', sortable: false},
         ],
         id: null,
         action: "",

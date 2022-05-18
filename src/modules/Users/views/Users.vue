@@ -1,6 +1,6 @@
 <template>
 <div>
-    <global-header module="users" @click_event="action = 'create'; dialog = true;" title="Users" :items="breadcrumps" />
+    <global-header module="users" @click_event="action = 'create'; dialog = true;" :title="$t('label.users')" :items="breadcrumps" />
     <div class="mt-6 mb-6">
       <v-tabs
       fixed-tabs
@@ -9,13 +9,13 @@
       class="elevation-4"
     >
       <v-tab href="#admins" @click="keyword = ''; getAdmins();" class="text-capitalize">
-        Admins
+        {{$t('label.admins')}}
       </v-tab>
       <v-tab href="#police stations" @click="keyword = ''; getPoliceStations();" class="text-capitalize">
-        Police stations
+        {{$t('label.policeStations')}}
       </v-tab>
       <v-tab href="#users" @click="keyword = ''; getUsers();" class="text-capitalize">
-        Users
+        {{$t('label.users')}}
       </v-tab>
     </v-tabs>
     <v-data-table
@@ -24,13 +24,14 @@
     :items-per-page="10"
     class="elevation-4"
     :loading="loading && data.length === 0"
+    :footer-props="{itemsPerPageText: $t('table.recordsPerPage')}"
     >
      <template v-slot:top>
       <v-toolbar
         flat
         color="accent"
       >
-      <v-toolbar-title class="text-capitalize">{{tab}}</v-toolbar-title>
+      <v-toolbar-title class="text-capitalize">{{tab === 'police stations' ? $t('label.policeStations') : $t(`label.${tab}`)}}</v-toolbar-title>
         <v-spacer />
       <v-text-field
         outlined
@@ -38,7 +39,7 @@
         rounded
         v-model="keyword"
         append-icon="mdi-magnify"
-        label="Search"
+        :label="$t('label.search')"
         single-line
         hide-details
         class="search-input"
@@ -67,18 +68,18 @@
         <v-list>
             <v-list-item @click="action = 'update'; selectFields(item); dialog = true;" ripple>
             <v-list-item-title>
-             <p class="mb-0 amber--text"><v-icon class="mr-1" color="amber" small>mdi-pencil</v-icon>Edit</p>
+             <p class="mb-0 amber--text"><v-icon class="mr-1 ml-1" color="amber" small>mdi-pencil</v-icon>{{$t('label.update')}}</p>
             </v-list-item-title>
             </v-list-item>
             <v-spacer></v-spacer>
             <v-list-item v-if="!item.isSuspended" @click="id = item.id; method= 'deactivate'; delete_alert = true;" ripple>
             <v-list-item-title>
-             <p class="mb-0 error--text"><v-icon class="mr-1" color="error" small>mdi-alert-octagon-outline</v-icon>Deactivate</p>
+             <p class="mb-0 error--text"><v-icon class="mr-1 ml-1" color="error" small>mdi-alert-octagon-outline</v-icon>{{$t('label.deactivate')}}</p>
             </v-list-item-title>
             </v-list-item>
             <v-list-item v-else @click="id = item.id; method= 'activate'; delete_alert = true;" ripple>
             <v-list-item-title>
-             <p class="mb-0 success--text"><v-icon class="mr-1" color="success" small>mdi-alert-octagon-outline</v-icon>Activate</p>
+             <p class="mb-0 success--text"><v-icon class="mr-1 ml-1" color="success" small>mdi-alert-octagon-outline</v-icon>Activate</p>
             </v-list-item-title>
             </v-list-item>
         </v-list>
@@ -237,7 +238,8 @@ import { REQUEST } from '../../../Request'
 import { GET } from '../../../Request/requestMethods'
 import { toast } from '../../../utils/toast';
 export default {
-    data: () => ({
+    data() {
+      return {
       type: null,
       tab: 'admins',
       keyword: '',
@@ -299,30 +301,31 @@ export default {
       ],
       breadcrumps: [
         {
-          text: 'Home',
+          text: this.$t('label.home'),
           disabled: false,
           href: '/',
         },
         {
-          text: 'Users',
+          text: this.$t('label.users'),
           disabled: true,
           href: 'users',
         },
       ],
       headers: [
         {text: '#', align: 'start', sortable: false, value: 'index'},
-        {text: 'Name', align: 'start', sortable: false, value: 'name'},
-        { text: 'Phone', value: 'phone', sortable: false },
-        { text: 'E-Mail', value: 'email', sortable: false },
-        { text: 'Address', value: 'location', sortable: false },
-        { text: 'Age', value: 'age', sortable: false },
-        { text: 'City', value: 'city', sortable: false },
-        { text: 'Marital status', value: 'marital_status.status', sortable: false },
-        { text: 'Role', value: 'type.role', sortable: false },
-        { text: 'Status', value: 'isSuspended', sortable: false },
-        { text: 'Actions', value: 'actions', sortable: false },
+        {text: this.$t('label.name'), align: 'start', sortable: false, value: 'name'},
+        { text: this.$t('label.phone'), value: 'phone', sortable: false },
+        { text: this.$t('label.email'), value: 'email', sortable: false },
+        { text: this.$t('label.address'), value: 'location', sortable: false },
+        { text: this.$t('label.age'), value: 'age', sortable: false },
+        { text: this.$t('label.city'), value: 'city', sortable: false },
+        { text: this.$t('label.maritalStatus'), value: 'marital_status.status', sortable: false },
+        { text: this.$t('label.role'), value: 'type.role', sortable: false },
+        { text: this.$t('label.status'), value: 'isSuspended', sortable: false },
+        { text: this.$t('label.action'), value: 'actions', sortable: false },
       ],
-    }),
+    }
+    },
     watch: {
       dialog:{
       deep: true,
@@ -358,6 +361,7 @@ export default {
            }
          ]
         }
+
       },
       data() {
         if(this.tab === 'admins') 

@@ -13,6 +13,9 @@
     :src="blog.attachment ? blog.attachment.url : 'https://waterfountain.no/wp-content/uploads/2019/11/placeholder.png'">
     <v-btn
     class="text-capitalize ml-2"
+    absolute
+    top
+    right
     color="error"
     x-small
     v-if="blog.attachment"
@@ -21,7 +24,7 @@
       <v-icon x-small dark>
         mdi-delete
       </v-icon>
-      delete image
+      {{$t('label.removePhoto')}}
     </v-btn>
     </v-img>
     <v-card-text class="content pt-5"><p class="content-text mb-0">{{blog.content}}</p></v-card-text>

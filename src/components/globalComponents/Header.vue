@@ -12,17 +12,17 @@
         ></v-breadcrumbs>
         <v-btn
         v-if="module !== 'statistics' 
-         && module !== 'term & condition'
+         && module !== 'termsAndConditions'
          && module !== 'about' 
-         && module !== 'violence cases' 
-         && module !== 'report'"
+         && module !== 'violenceCases' 
+         && module !== 'reports'"
         color="primary"
         large
         rounded
         class="text-capitalize"
         @click="$emit('click_event')"
         
-        >Create{{' '}}{{module}}</v-btn>
+        >{{$t('label.create')}}{{' '}}{{$t(`label.${module}`)}}</v-btn>
         </div>
         </div>
     </div>

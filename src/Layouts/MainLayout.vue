@@ -60,7 +60,7 @@
                <v-icon class="mr-1" color="primary" small>
                mdi-logout-variant
                </v-icon>
-                Logout
+                {{$t('label.logout')}}
                </p>
             </v-list-item-title>
             </v-list-item>
@@ -81,6 +81,8 @@
         :overlay-opacity="0"
         hide-overlay
         temporary
+        :right="$i18n.locale !== 'en'"
+        :dir="$i18n.locale !== 'en' ? 'rtl' : 'ltr'"
         color="secondary"
         style="position: fixed !important;"
       >
@@ -88,11 +90,11 @@
           nav
           dense
         >
-          <v-list-item v-for="nav in navigations" :key="nav.id" @click="activate(nav.id)" :to="nav.root" :ripple="false" link>
+          <v-list-item class="mr-0" v-for="nav in navigations" :key="nav.id" @click="activate(nav.id)" :to="nav.root" :ripple="false" link>
             <v-list-item-icon>
               <v-icon>mdi-{{nav.icon}}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>{{nav.title}}</v-list-item-title>
+            <v-list-item-title class="mr-3">{{nav.title}}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
@@ -114,55 +116,55 @@ export default {
       navigations:[
         {
         id:0,
-        title: 'Statistics',
+        title: this.$t('label.statistics'),
         icon: 'chart-bar',
         root: '/statistics'
         },
         {
         id:1,
-        title: 'Violence cases',
+        title: this.$t('label.violenceCases'),
         icon: 'alert-outline',
         root: '/violence-cases'
         },
         {
         id:2,
-        title: 'Blogs',
+        title: this.$t('label.blogs'),
         icon: 'post-outline',
         root: '/blogs'
         },
         {
         id:3,
-        title: 'Announcements and rules',
+        title: this.$t('label.announcementsAndRules'),
         icon: 'bullhorn-outline',
         root: '/announcements-and-rules'
         },
         {
         id:4,
-        title: 'Notifications',
+        title: this.$t('label.notifications'),
         icon: 'bell-outline',
         root: '/notifications'
         },
         {
         id:5,
-        title: 'Users',
+        title: this.$t('label.users'),
         icon: 'account-group',
         root: '/users'
         },
         {
         id:6,
-        title: 'Terms and conditions',
+        title: this.$t('label.termsAndConditions'),
         icon: 'help',
         root: '/terms-and-conditions'
         },
         {
         id:7,
-        title: 'About',
+        title: this.$t('label.about'),
         icon: 'information-outline',
         root: '/about'
         },
         {
         id:8,
-        title: 'Report',
+        title: this.$t('label.reports'),
         icon: 'chart-timeline',
         root: '/report'
         },

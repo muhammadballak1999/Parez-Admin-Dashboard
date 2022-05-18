@@ -10,6 +10,7 @@ export function SIGN_IN (state, payload) {
 export function SIGN_OUT (state) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('lang');
         state.accessToken = null;
         state.isLoggedIn = false;
         location.reload();

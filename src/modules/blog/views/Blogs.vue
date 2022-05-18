@@ -1,6 +1,6 @@
 <template>
 <div>
-  <global-header module="blog" @click_event="action='create'; open = true; dialog = true;" title="Blogs" :items="breadcrumps" />
+  <global-header module="blogs" @click_event="action='create'; open = true; dialog = true;" :title="$t('label.blogs')" :items="breadcrumps" />
         <div class="d-flex flex-column align-center">
           <v-progress-linear
             color="primary"
@@ -10,9 +10,9 @@
             v-if="loading && blogs.length === 0"
           ></v-progress-linear>
       <div v-if="!loading && blogs.length === 0" class="d-flex flex-column align-center">
-       <p class="mb-0">No blogs are available!</p>
+       <p class="mb-0">{{$t('table.noData')}}</p>
        <v-btn text rounded @click="action='create'; open = true; dialog = true;" class="text-capitalize mt-2" color="primary">
-         Create Blog
+         {{$t('label.create') + ' ' + $t('label.blogs')}}
        </v-btn>
         </div>
    </div>
@@ -107,12 +107,12 @@ export default{
         return {
         breadcrumps: [
         {
-          text: 'Home',
+          text: this.$t('label.home'),
           disabled: false,
           href: '/',
         },
         {
-          text: 'Blogs',
+          text: this.$t('label.blogs'),
           disabled: true,
           href: 'blogs',
         },

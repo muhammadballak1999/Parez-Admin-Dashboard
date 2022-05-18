@@ -13,7 +13,7 @@
             >
               mdi-crosshairs-gps
             </v-icon>
-           Open in google maps
+           {{$t('label.showOnGoogleMaps')}}
         </v-btn>
       <v-btn style="z-index: 1000; height: 42px !important; width:42px !important;" @click="$emit('close_map')" color="primary" fab fixed top right>
         <v-icon
