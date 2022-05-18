@@ -13,12 +13,14 @@
     "remove":"لابردن",
     "removePhoto":"لابردنی وێنە",
     "update":"نوێکردنەوە",
-    "create":"دروستکردن",
+    "edit":"نوێکردنەوە",
+    "create":"دروستکردنی",
     "download": "دابەزاندن",
     "search":"گەڕان",
     "filter":"پاڵاوتن",
     "activate": "چاڵاککردن",
     "deactivate": "ڕاگرتن",
+    "password": "وشەی نهێنی",
     "refresh":"تازەکردنەوە",
     "doubleCheck": "دڵنیای؟",
     "warning": "ئاگادار بە!",
@@ -46,6 +48,7 @@
     "policeStation":"بنکەی ئاسایش",
     "statistics": "ئامارەکان",
     "blogs": "بڵاوکراوەکان",
+    "blog": "بڵاوکراوە",
     "announcementsAndRules": "ڕاگەیاندن و یاساکان",
     "notifications": "ئاگادارکردنەوەکان",
     "sendNotification": "ئاگادارکردنەوە بنێرە",
@@ -61,7 +64,10 @@
     "age": "تەمەن",
     "city": "شار",
     "maritalStatus": "باری کۆمەڵایەتی",
-    "role": "جۆری بەکارهێنەر"
+    "role": "جۆری بەکارهێنەر",
+    "longitude": "درێژایی",
+    "latitude": "پانایی",
+    "noNet": "هیچ هێڵی ئینتەرنێتێک بەردەست نیە"
   },
   "date":{
     "days":[

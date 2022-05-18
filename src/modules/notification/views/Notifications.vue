@@ -58,7 +58,7 @@
       <v-text-field
         v-model="item.title"
         ref="title"
-        label="Title"
+        :label="`${$t('label.title')} *`"
         outlined
         dense
         :rules="titleRules"
@@ -67,7 +67,7 @@
             <v-text-field
         v-model="item.content"
         ref="content"
-        label="Content"
+        :label="`${$t('label.content')} *`"
         outlined
         dense
         :rules="contentRules"
@@ -126,8 +126,8 @@ export default{
         delete_alert: false,
         loading: false,
         valid: false,
-        titleRules: [v => !!v || 'Title is required!'],
-        contentRules: [v => !!v || 'Content is required!']
+        titleRules: [v => !!v || ''],
+        contentRules: [v => !!v || '']
         }
     },
     computed: {

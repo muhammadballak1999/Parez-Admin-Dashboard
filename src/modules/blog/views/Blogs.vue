@@ -45,7 +45,7 @@
       v-model="dialog"
       width="600px"
   >
-  <global-dialog-content :action="action" title="blog" @submit="submit" @close_dialog="clear(); dialog = false;">
+  <global-dialog-content :action="action" :title="$t('label.blog')" @submit="submit" @close_dialog="clear(); dialog = false;">
     <template v-slot:dialog-content>
         <v-form
         ref="form"
@@ -56,7 +56,7 @@
       <v-text-field
         v-model="blog.title"
         ref="title"
-        label="Title (required)"
+        :label="`${$t('label.title')} *`"
         outlined
         dense
         :rules="titleRules"
@@ -68,7 +68,7 @@
           ref="content"
           outlined
           class="mt-6"
-          label="Content"
+          :label="$t('label.content')"
           :rules="contentRules"
           required
       ></v-textarea>
@@ -138,11 +138,11 @@ export default{
         content: ''
       },
       titleRules:[
-        v => !!v || 'Title is required!',
+        v => !!v || '',
       ],
       contentRules: 
        [
-        v => !!v || 'Content is required!',
+        v => !!v || '',
        ]
       }
     },

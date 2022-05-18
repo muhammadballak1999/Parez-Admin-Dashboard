@@ -12,10 +12,12 @@
     "remove":"Remove",
     "removePhoto":"Delete image",
     "update":"Update",
+    "edit":"Update",
     "create":"Create",
     "download": "Download",
     "activate": "Activate",
     "deactivate": "Deactivate",
+    "password": "Password",
     "search":"Search",
     "filter":"Filter",
     "refresh":"Refresh",
@@ -45,6 +47,7 @@
     "policeStation":"Police station",
     "statistics": "Statistics",
     "blogs": "Blogs",
+    "blog": "Blog",
     "announcementsAndRules": "Announcements and Rules",
     "notifications": "Notifications",
     "sendNotification": "Send Notification",
@@ -60,7 +63,10 @@
     "age": "Age",
     "city": "City",
     "maritalStatus": "Marital Status",
-    "role": "Role"
+    "role": "Role",
+    "longitude": "Longitude",
+    "latitude": "Latitude",
+    "noNet": "No internet connection is available!"
   },
   "date":{
     "days":[

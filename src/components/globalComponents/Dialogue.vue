@@ -1,7 +1,7 @@
 <template>
   <v-card>
         <v-card-title class="accent sticky-position top">
-          <span class="text-h5 text-capitalize">{{action}}{{' '}}{{title}}</span>
+          <span class="text-h5 text-capitalize">{{$t(`label.${action}`)}}{{' '}}{{title}}</span>
         </v-card-title>
         <v-card-text>
             <slot name="dialog-content"></slot>
@@ -10,6 +10,7 @@
           <v-spacer></v-spacer>
           <v-btn
             color="error"
+            class="ml-3"
             @click="$emit('close_dialog')"
           >
             {{$t('label.close')}}
@@ -19,7 +20,7 @@
             @click="$emit('submit')"
             :loading="loading"
           >
-            Submit
+            {{$t('label.ok')}}
           </v-btn>
         </v-card-actions>
       </v-card> 

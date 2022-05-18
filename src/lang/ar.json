@@ -13,6 +13,7 @@
     "remove":"حذف",
     "removePhoto":"حذف الصورة",
     "update":"تحديث",
+    "edit":"تحديث",
     "create":"إنشاء",
     "download": "تحمیل",
     "search":"بحث",
@@ -20,6 +21,7 @@
     "refresh":"تحديث",
     "activate": "تفعیل",
     "deactivate": "تعطیل",
+    "password": "کلمة السر",
     "doubleCheck": "هل انت متاکد؟",
     "warning": "تحذیر!",
     "logout":"خروج",
@@ -46,6 +48,7 @@
     "policeStation":"قسم الأمن",
     "statistics": "احصائیات",
     "blogs": "مقالات",
+    "blog": "مقالة",
     "announcementsAndRules": "اعلانات و شروط",
     "notifications": "اشعارات",
     "sendNotification": "ارسل الاشعار",
@@ -61,7 +64,10 @@
     "age": "عمر",
     "city": "مدینة",
     "maritalStatus": "الحالة الاجتماعیة",
-    "role": "نوع المستخدم"
+    "role": "نوع المستخدم",
+    "longitude": "خط الطول",
+    "latitude": "خط العرض",
+    "noNet": "لا یوجد اتصال بالانترنت"
   },
   "date":{
     "days":[

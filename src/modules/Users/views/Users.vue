@@ -97,7 +97,7 @@
       v-model="dialog"
       width="600px"
   >
-  <global-dialog-content :loading="crudLoading" :action="action" title="user" @submit="submit" @close_dialog="clear(); dialog = false;">
+  <global-dialog-content :loading="crudLoading" :action="action" :title="$t('label.users')" @submit="submit" @close_dialog="clear(); dialog = false;">
     <template v-slot:dialog-content>
       <v-form
         ref="form"
@@ -108,7 +108,7 @@
       <v-text-field
         v-model="user.name"
         ref="name"
-        label="Name"
+        :label="$t('label.users')"
         outlined
         dense
         :rules="nameRules"
@@ -117,7 +117,7 @@
       <v-text-field
         v-model="user.email"
         ref="email"
-        label="E-mail"
+        :label="$t('label.email')"
         autocomplete="false"
         outlined
         dense
@@ -128,7 +128,7 @@
         v-model="user.password"
         autocomplete="new-password"
         ref="password"
-        label="Password"
+        :label="$t('label.password')"
         outlined
         type="password"
         dense
@@ -138,7 +138,7 @@
       <v-text-field
         v-model="user.city"
         ref="city"
-        label="City"
+        :label="$t('label.city')"
         outlined
         dense
         :rules="cityRules"
@@ -148,7 +148,6 @@
       defaultCountry 
       dense 
       outlined 
-      :error-messages="error ? 'Please write a valid phone number!' : ''"
       :rules="phoneRules"
       v-model="phone">
       </vue-tel-input-vuetify>
@@ -160,7 +159,7 @@
         :item-text="item =>`${item.role}`" 
         return-object
         dense
-        label="User type"
+        :label="$t('label.role')"
         :rules="typeRules"
         outlined
         ref="type"
@@ -169,13 +168,13 @@
         </v-select>
         <v-btn v-if="type && type.role === 'police'" @click="map_dialog = true;" class="text-capitalize mb-6" color="primary" block>
           <v-icon>mdi-map-marker</v-icon>
-          Choose location
+          {{$t('label.chooseLocation')}}
         </v-btn>
         <v-text-field
         v-if="type && type.role === 'police'"
         v-model="user.location"
         ref="location"
-        label="Location"
+        :label="$t('label.address')"
         outlined
         dense
         :rules="locationRules"
@@ -184,7 +183,7 @@
         v-if="type && type.role === 'police'"
         v-model="user.latitude"
         ref="latitude"
-        label="Latitude"
+        :label="$t('label.latitude')"
         outlined
         dense
         :rules="latitudeRules"
@@ -193,7 +192,7 @@
         v-if="type && type.role === 'police'"
         v-model="user.longitude"
         ref="longitude"
-        label="Longitude"
+        :label="$t('label.longitude')"
         outlined
         dense
         :rules="longitudeRules"
@@ -207,7 +206,7 @@
         :item-text="item =>`${item.status}`" 
         :item-value="item => item.id"
         dense
-        label="Marital status"
+        :label="$t('label.maritalStatus')"
         outlined
         ref="marital_status"
         >

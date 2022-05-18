@@ -9,6 +9,7 @@
       button-class="btn"
       :removable="true"
       removeButtonClass="btn"
+      :custom-strings="{tap: '+'}"
       @change="onChange">
     </picture-input>
 </template>
