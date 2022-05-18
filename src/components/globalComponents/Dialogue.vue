@@ -10,7 +10,6 @@
           <v-spacer></v-spacer>
           <v-btn
             color="error"
-            class="ml-3"
             @click="$emit('close_dialog')"
           >
             {{$t('label.close')}}

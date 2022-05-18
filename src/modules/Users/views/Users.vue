@@ -25,6 +25,7 @@
     class="elevation-4"
     :loading="loading && data.length === 0"
     :footer-props="{itemsPerPageText: $t('table.recordsPerPage')}"
+    :no-data-text="$t('table.noData')"
     >
      <template v-slot:top>
       <v-toolbar
@@ -147,7 +148,10 @@
       <vue-tel-input-vuetify 
       defaultCountry 
       dense 
-      outlined 
+      outlined
+      dir="ltr" 
+      :label="$t('label.phone')"
+      :placeholder="$t('label.phone')"
       :rules="phoneRules"
       v-model="phone">
       </vue-tel-input-vuetify>
@@ -274,29 +278,29 @@ export default {
         marital_status: null
       },
       nameRules:[
-        v => !!v || 'Name is required!',
+        v => !!v || '',
       ],
       emailRules: [
-        v => !!v || 'E-mail is required!',
-        v => /.+@.+/.test(v) || 'E-mail must be valid!',
+        v => !!v || '',
+        v => /.+@.+/.test(v) || '',
       ],
       locationRules:[
-        v => !!v || 'Location is required!',
+        v => !!v || '',
       ],
       latitudeRules:[
-        v => !!v || 'Latitude is required!',
+        v => !!v || '',
       ],
       longitudeRules:[
-        v => !!v || 'Longitude is required!',
+        v => !!v || '',
       ],
       phoneRules:[
-        v => !!v || 'Phone number is required!',
+        v => !!v || '',
       ],
       cityRules:[
-        v => !!v || 'City is required!',
+        v => !!v || '',
       ],
       typeRules:[
-        v => !!v || 'Type is required!',
+        v => !!v || '',
       ],
       breadcrumps: [
         {
@@ -342,15 +346,15 @@ export default {
       passwordRules() {
         if(this.action === 'create'){
         return  [
-         v => !!v || 'Password is required!',
-         v => !!v && v.length >= 8 || 'Password must be at least 8 characters!' 
+         v => !!v || '',
+         v => !!v && v.length >= 8 || this.$t('label.eightCharsPassword') 
          ]
         }else{
          return  [
          v => {
            if(v){
              if(v.length < 8) {
-               return 'Password must be at least 8 characters!';
+               return this.$t('label.eightCharsPassword') ;
              }else{
                return true;
              }

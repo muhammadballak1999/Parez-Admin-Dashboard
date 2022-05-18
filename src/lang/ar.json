@@ -21,6 +21,9 @@
     "refresh":"تحديث",
     "activate": "تفعیل",
     "deactivate": "تعطیل",
+    "userActivate": "تم تفعیل مستخدم بنجاح",
+    "userDeactivate": "تم تعطیل مستخدم بنجاح",
+    "deactivateFail": "لا تستطیع تعطیل حسابك",
     "password": "کلمة السر",
     "doubleCheck": "هل انت متاکد؟",
     "warning": "تحذیر!",
@@ -67,7 +70,9 @@
     "role": "نوع المستخدم",
     "longitude": "خط الطول",
     "latitude": "خط العرض",
-    "noNet": "لا یوجد اتصال بالانترنت"
+    "noNet": "لا یوجد اتصال بالانترنت",
+    "eightCharsPassword": "کلمة السریة لازم تکون ٨ احرف علی الاقل",
+    "somethingWrong": "هناك خطأ"
   },
   "date":{
     "days":[

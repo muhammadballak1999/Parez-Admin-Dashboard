@@ -88,7 +88,7 @@ export default {
           }
         );
         }catch(err){
-          toast('Something went wrong!', 'error');
+          toast(this.$t('somethingWrong'), 'error');
           this.loading = false
         }
       this.loading = false;

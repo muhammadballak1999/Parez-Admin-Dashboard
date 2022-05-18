@@ -17,6 +17,9 @@
     "download": "Download",
     "activate": "Activate",
     "deactivate": "Deactivate",
+    "userActivate": "User activated successfully",
+    "userDeactivate": "User deactivated successfully",
+    "deactivateFail": "You can not deactivate yourself",
     "password": "Password",
     "search":"Search",
     "filter":"Filter",
@@ -66,7 +69,9 @@
     "role": "Role",
     "longitude": "Longitude",
     "latitude": "Latitude",
-    "noNet": "No internet connection is available!"
+    "noNet": "No internet connection is available",
+    "eightCharsPassword": "Password must be at least 8 characters long",
+    "somethingWrong": "Something went wrong"
   },
   "date":{
     "days":[

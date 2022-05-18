@@ -18,16 +18,8 @@ export const REQUEST = async (resource, method, payload, noToken) => {
       return {error: true, ...err.response.data};
      }
   }else{ 
-    let noNet = ""
-    if(localStorage.getItem('lang') === 'en'){ 
-      noNet = i18n.messages.en.label.noNet;
-    } else if(localStorage.getItem('lang') === 'ar') {
-      noNet = i18n.messages.ar.label.noNet;
-    } else {
-      noNet = i18n.messages.ku.label.noNet;
-    }
 
-    toast(noNet, 'error');
+    toast(i18n.messages[i18n.locale].label.noNet, 'error');
 
     return {
       success:false,

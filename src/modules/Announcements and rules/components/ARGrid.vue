@@ -21,7 +21,7 @@
       <v-icon x-small dark>
         mdi-delete
       </v-icon>
-      delete image
+      {{$t('label.removePhoto')}}
     </v-btn>
     </v-img>
     <v-card-text class="content pt-5"><p class="content-text mb-0">{{announcementAndRule.content}}</p></v-card-text>

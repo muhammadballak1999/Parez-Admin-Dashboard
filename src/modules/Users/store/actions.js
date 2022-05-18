@@ -1,6 +1,7 @@
 import { REQUEST } from '../../../Request';
 import { POST, PUT, GET, DELETE } from '../../../Request/requestMethods';
 import { toast } from '../../../utils/toast';
+import i18n from '../../../i18n'
 
 export const getUsers = async ({commit}, keyword) => {
     let response = await REQUEST(`/users/${keyword || undefined}`, GET);
@@ -36,10 +37,9 @@ export const createUser = async ({dispatch}, payload) => {
         }else{
             dispatch('getPoliceStations');
         }
-        toast('User created successfully', 'success');
     }else  {
        if(response.error) {
-        toast(response.message, 'error');
+        toast(i18n.messages[i18n.locale].label[response.message], 'error');
         }
     }
     return response;
@@ -57,10 +57,9 @@ export const updateUser = async ({dispatch}, payload) => {
         }else{
             dispatch('getPoliceStations');
         }
-        toast('User updated successfully', 'success');
     }else{
         if(response.error) {
-        toast(response.message, 'error');
+            toast(i18n.messages[i18n.locale].label[response.message], 'error');
         }
     }
     return response;
@@ -77,9 +76,9 @@ export const deactivate = async ({dispatch}, payload) => {
         }else{
             dispatch('getPoliceStations');
         }
-        toast('User deactivated successfully', 'success');
+        toast(i18n.messages[i18n.locale].label.userDeactivate, 'error');
     }else{
-        toast(response.message, 'error');
+        toast(i18n.messages[i18n.locale].label.deactivateFail, 'error');
     }
 }
 
@@ -94,8 +93,8 @@ export const activate = async ({dispatch}, payload) => {
         }else{
             dispatch('getPoliceStations');
         }
-        toast('User activated successfully', 'success');
+        toast(i18n.messages[i18n.locale].label.userActivate, 'error');
     }else{
-        toast('Something went wrong!', 'error');
+        toast(i18n.messages[i18n.locale].label.somethingWrong, 'error')
     }
 }

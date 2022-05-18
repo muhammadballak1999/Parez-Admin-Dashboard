@@ -1,13 +1,14 @@
 import { REQUEST } from '../../../Request';
 import { DELETE, GET, POST, PUT } from '../../../Request/requestMethods';
 import { toast } from '../../../utils/toast';
+import i18n from '../../../i18n';
 
 export const getBlogs = async ({commit}) => {
     let response = await REQUEST('/blogs', GET);
     if(response.success) {
         commit('GET_BLOGS', response.data);
     }else{
-        toast('Something went wrong', 'error');
+        toast(i18n.messages[i18n.locale].label.somethingWrong, 'error')
     }
 }
 
@@ -30,7 +31,6 @@ export const deleteBlog = async ({dispatch}, id) => {
     let response = await REQUEST(`/blogs/${id}`, DELETE);
     if(response.success)
     await dispatch('getBlogs');
-    toast('Blog deleted successfully', 'success');
 }
 
 export const deleteBlogImage = async ({dispatch}, id) => {

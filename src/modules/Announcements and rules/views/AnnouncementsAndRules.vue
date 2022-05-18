@@ -101,7 +101,6 @@ import ArGrid from '../components/ARGrid.vue';
 import ShowAr from '../components/ShowAR.vue';
 import { dataURItoBlob } from '../../../utils/dataURItoBlob';
 import { mapState, mapActions } from 'vuex';
-import { toast } from '../../../utils/toast'
 export default{
     data() {
         return {
@@ -177,10 +176,8 @@ export default{
             }
             if(this.action === 'create'){
             await this.createAnnouncementAndRule(form);
-            toast('Annonuncement and Rule created successfully', 'success');
             }else{
             await this.updateAnnouncementAndRule({id: this.id, body: form});
-            toast('Annonuncement and Rule updated successfully', 'success');
             }
             this.clear();
           }

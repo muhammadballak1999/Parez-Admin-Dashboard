@@ -101,7 +101,6 @@ import BlogGrid from '../components/BlogGrid.vue';
 import ShowBlog from '../components/ShowBlog.vue';
 import { dataURItoBlob } from '../../../utils/dataURItoBlob';
 import { mapState, mapActions } from 'vuex';
-import { toast } from '../../../utils/toast'
 export default{
     data() {
         return {
@@ -171,10 +170,8 @@ export default{
             }
             if(this.action === 'create'){
             await this.createBlog(form);
-            toast('Blog created successfully', 'success');
             }else{
             await this.updateBlog({id: this.id, body: form});
-            toast('Blog updated successfully', 'success');
             }
             this.clear();
           }

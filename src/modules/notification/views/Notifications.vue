@@ -6,6 +6,7 @@
       :items="notifications"
       class="elevation-4 mt-6"
       :footer-props="{itemsPerPageText: $t('table.recordsPerPage')}"
+      :no-data-text="$t('table.noData')"
     >
       <template v-slot:item.send="{ item }">
         <v-btn @click="sendNotification(item)" :loading="item.send" class="text-capitalize secondary">

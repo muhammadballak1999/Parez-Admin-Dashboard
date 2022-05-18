@@ -15,7 +15,6 @@
         <v-btn
             color="error"
             @click="$emit('close')"
-            class="ml-2"
           >
           {{$t('label.close')}}
           </v-btn>

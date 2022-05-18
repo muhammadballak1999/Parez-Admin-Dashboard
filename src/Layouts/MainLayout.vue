@@ -94,7 +94,7 @@
             <v-list-item-icon>
               <v-icon>mdi-{{nav.icon}}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title class="mr-3">{{nav.title}}</v-list-item-title>
+            <v-list-item-title>{{nav.title}}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-navigation-drawer>

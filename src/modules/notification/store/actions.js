@@ -1,13 +1,14 @@
 import { REQUEST } from '../../../Request';
 import { DELETE, GET, POST, PUT } from '../../../Request/requestMethods';
 import { toast } from '../../../utils/toast';
+import i18n from '../../../i18n';
 
 export const getNotifications = async ({commit}) => {
     let response = await REQUEST('/notifications', GET);
     if(response.success) {
         commit('GET_NOTIFICATIONS', response.data);
     }else{
-        toast('Something went wrong', 'error');
+        toast(i18n.messages[i18n.locale].label.somethingWrong, 'error');
     }
 }
 
@@ -16,7 +17,7 @@ export const createNotification = async ({dispatch}, payload) => {
     if(response.success) {
         dispatch('getNotifications');
     }else{
-        toast('Something went wrong', 'error');
+        toast(i18n.messages[i18n.locale].label.somethingWrong, 'error')
     }
 }
 
@@ -25,7 +26,7 @@ export const updateNotification = async ({dispatch}, payload) => {
     if(response.success) {
         dispatch('getNotifications');
     }else{
-        toast('Something went wrong', 'error');
+        toast(i18n.messages[i18n.locale].label.somethingWrong, 'error')
     }
 }
 
@@ -34,6 +35,6 @@ export const deleteNotification = async ({dispatch}, id) => {
     if(response.success) {
         dispatch('getNotifications');
     }else{
-        toast('Something went wrong', 'error');
+        toast(i18n.messages[i18n.locale].label.somethingWrong, 'error')
     }
 }

@@ -10,6 +10,7 @@
     :item-class="itemColor"
     :loading="loading && data.length === 0"
     :footer-props="{itemsPerPageText: $t('table.recordsPerPage')}"
+    :no-data-text="$t('table.noData')"
     >
      <template v-slot:top>
       <v-toolbar
